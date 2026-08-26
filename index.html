@@ -12,8 +12,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <script src="vendor/leaflet/leaflet.js"></script>
   <style>
     :root {
       --ocean: #086b78;
@@ -48,8 +48,18 @@
     button, a { -webkit-tap-highlight-color: transparent; }
     button { color: inherit; font: inherit; }
     button:focus-visible, a:focus-visible, .stop-photo:focus-visible {
-      outline: 3px solid var(--sun);
-      outline-offset: 3px;
+      outline: 3px solid #fff;
+      outline-offset: 2px;
+      box-shadow: 0 0 0 5px var(--ocean-deep);
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
     }
 
     .topbar {
@@ -298,7 +308,7 @@
       gap: 7px;
     }
     .map-control {
-      min-height: 42px;
+      min-height: 44px;
       padding: 9px 12px;
       cursor: pointer;
       color: #fff;
@@ -422,7 +432,7 @@
     .detail-header { position: relative; }
     .back-button {
       display: inline-flex;
-      min-height: 40px;
+      min-height: 44px;
       align-items: center;
       gap: 7px;
       margin-bottom: 28px;
@@ -458,7 +468,7 @@
       font-size: 12px;
       font-weight: 850;
     }
-    .detail-header h2 {
+    .detail-header h1 {
       max-width: 14ch;
       margin: 9px 0 0;
       font-family: "Zen Maru Gothic", sans-serif;
@@ -559,7 +569,7 @@
     }
     .stop-nav {
       display: inline-flex;
-      min-height: 40px;
+      min-height: 44px;
       align-items: center;
       justify-content: center;
       gap: 5px;
@@ -620,8 +630,8 @@
 
     .route-pin {
       display: grid;
-      width: 34px;
-      height: 34px;
+      width: 44px;
+      height: 44px;
       place-items: center;
       color: #021a20;
       background: var(--pin-color);
@@ -665,9 +675,47 @@
     .popup-links { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     .popup a { color: var(--ocean); font-size: 13px; font-weight: 850; text-decoration: none; }
     .popup .credit { color: var(--muted); font-size: 11px; font-weight: 600; text-align: right; }
+    .popup-links a {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+    }
+    .leaflet-container a.leaflet-popup-close-button {
+      width: 44px;
+      height: 44px;
+      border-radius: 0 20px 0 16px;
+      background: rgba(255, 255, 255, .92);
+      color: var(--ocean);
+      font-size: 24px;
+      line-height: 44px;
+    }
     .leaflet-control-zoom { border: 0 !important; box-shadow: 0 6px 18px rgba(5, 73, 86, .16) !important; }
-    .leaflet-control-zoom a { color: var(--ocean-deep) !important; background: #fff !important; }
+    .leaflet-control-zoom a {
+      width: 44px !important;
+      height: 44px !important;
+      color: var(--ocean-deep) !important;
+      background: #fff !important;
+      font-size: 22px !important;
+      line-height: 44px !important;
+    }
     .leaflet-control-attribution { color: var(--muted); background: rgba(255, 255, 255, .9) !important; font-size: 10px; }
+    .map-status {
+      position: absolute;
+      z-index: 510;
+      right: 18px;
+      bottom: 76px;
+      display: none;
+      max-width: min(330px, calc(100% - 36px));
+      padding: 12px 14px;
+      color: #fff;
+      background: var(--ocean-deep);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+    .map-status.is-visible { display: block; }
 
     @keyframes dayReveal {
       from { opacity: .2; clip-path: inset(0 0 12% 0); transform: translateY(14px); }
@@ -777,9 +825,9 @@
       .map-heading strong { font-size: 15px; }
       .map-heading span { display: none; }
       .map-controls { flex-direction: column; }
-      .map-control { min-height: 38px; }
+      .map-control { min-height: 44px; }
       .detail-topline { align-items: flex-start; }
-      .detail-header h2 { font-size: 33px; }
+      .detail-header h1 { font-size: 33px; }
       .schedule-stop {
         grid-template-columns: 45px 16px minmax(0, 1fr) 72px;
         gap: 7px;
@@ -792,7 +840,18 @@
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      .turtle-friend .hello-fin,
+      .trip-main.is-detail .detail-panel {
+        animation: none;
+      }
+      .primary-action,
+      .day-button {
+        transition: none;
+      }
+      .leaflet-fade-anim .leaflet-popup,
+      .leaflet-zoom-anim .leaflet-zoom-animated {
+        transition: none;
+      }
     }
   </style>
 </head>
@@ -850,6 +909,7 @@
 
     <section class="map-stage" aria-label="沖繩五日行程地圖">
       <div id="map"></div>
+      <p class="map-status" id="mapStatus" role="status"></p>
       <div class="map-heading">
         <strong id="mapTitle">五日全島路線</strong>
         <span id="mapSubtitle">那霸 → 本部／古宇利 → 那霸</span>
@@ -862,14 +922,14 @@
 
     <nav class="day-board" id="dayBoard" aria-label="選擇行程日期"></nav>
 
-    <section class="detail-panel" id="detailPanel" aria-live="polite">
+    <section class="detail-panel" id="detailPanel">
       <div class="detail-header">
         <button class="back-button" id="backOverview" type="button"><span aria-hidden="true">←</span> 返回五日總覽</button>
         <div class="detail-topline">
           <span class="detail-day" id="detailDay"></span>
           <span class="weather-tag" id="weatherTag"></span>
         </div>
-        <h2 id="detailTitle"></h2>
+        <h1 id="detailTitle"></h1>
         <p class="detail-summary" id="detailSummary"></p>
         <div class="detail-actions">
           <a class="primary-action" id="firstNav" href="#" target="_blank" rel="noopener">開啟第一站導航 <span aria-hidden="true">↗</span></a>
@@ -879,6 +939,7 @@
       <ol class="schedule-list" id="scheduleList"></ol>
       <aside class="fallback" id="fallback"></aside>
     </section>
+    <p class="sr-only" id="dayStatus" aria-live="polite" aria-atomic="true"></p>
   </main>
 
   <noscript>此互動行程需要啟用 JavaScript 才能顯示地圖與每日內容。</noscript>
@@ -925,17 +986,19 @@
     const photos = {
       airport: { src: "assets/naha-airport.jpg", alt: "那霸機場航廈與停機坪客機停靠景觀", page: "https://commons.wikimedia.org/wiki/File:140902_Naha_Airport_Naha_Okinawa_pref_Japan01bs50.jpg", credit: "663highland · CC BY 2.5" },
       tomiton: { src: "assets/tomiton.jpg", alt: "豐見城市豐崎 TOMITON 購物中心建築外觀", page: "https://commons.wikimedia.org/wiki/File:Tomiton_(Tomigusuku,_Okinawa).jpg", credit: "Mk2010 · CC BY-SA 3.0" },
-      gyokusendo: { src: "assets/gyokusendo.jpg", alt: "玉泉洞內壯觀的鐘乳石柱與地下步道", page: "https://commons.wikimedia.org/wiki/File:Gyokusendo-1.jpg", credit: "地圖帳 · Public Domain" },
-      bise: { src: "assets/bise-fukugi.jpg", alt: "備瀨福木林道充滿綠意的林蔭小徑", page: "https://commons.wikimedia.org/wiki/File:Bise_Fukugi_Tree_Road_01.JPG", credit: "Kugel · CC BY-SA 4.0" },
-      biseCoast: { src: "assets/bise-coast.jpg", alt: "備瀨福木林道濃密樹蔭形成的綠色隧道", page: "https://commons.wikimedia.org/wiki/File:Bise,_Motobu,_Kunigami_District,_Okinawa_Prefecture_905-0207,_Japan_-_panoramio_(1).jpg", credit: "takato fushimi · CC BY 3.0" },
-      kouri: { src: "assets/kouri-bridge.jpg", alt: "橫跨翡翠綠海面的古宇利大橋", page: "https://commons.wikimedia.org/wiki/File:Nago_Okinawa_Kouri-Bridge-01.jpg", credit: "Cccefalon · CC BY-SA 4.0" },
+      gyokusendo: { src: "assets/gyokusendo.jpg", alt: "玉泉洞內壯觀的鐘乳石柱與地下步道", page: "https://commons.wikimedia.org/wiki/File:Gyokusendo-1.jpg", credit: "沖縄発!役に立たない写真集 · Public Domain" },
+      bise: { src: "assets/bise-fukugi.jpg", alt: "備瀨福木林道充滿綠意的林蔭小徑", page: "https://commons.wikimedia.org/wiki/File:Bise_Fukugi_Tree_Road_01.JPG", credit: "Abasaa · Public Domain" },
+      biseCoast: { src: "assets/bise-coast.jpg", alt: "備瀨岬的珊瑚礁岩岸與清澈海面", page: "https://commons.wikimedia.org/wiki/File:Cape_Bise.jpg", credit: "cyawan · CC BY 2.0" },
+      kouri: { src: "assets/kouri-bridge.jpg", alt: "橫跨翡翠綠海面的古宇利大橋", page: "https://commons.wikimedia.org/wiki/File:Nago_Okinawa_Kouri-Bridge-01.jpg", credit: "CEphoto, Uwe Aranas · CC BY-SA 3.0" },
+      shrimp: { src: "assets/kouri-shrimp.jpg", alt: "蒜香奶油蝦搭配白飯的餐盤", page: "https://www.flickr.com/photos/90454079@N00/12797489183", credit: "Jun Seita · CC BY 2.0" },
       churaumi: { src: "assets/churaumi.jpg", alt: "美麗海水族館黑潮之海水槽中的鯨鯊與魚群", page: "https://commons.wikimedia.org/wiki/File:Okinawa_Aquarium.jpg", credit: "Jordy Meow · CC BY-SA 3.0" },
-      aeon: { src: "assets/aeon-rycom.jpg", alt: "AEON MALL Okinawa Rycom 主要入口外觀", page: "https://commons.wikimedia.org/wiki/File:AEON_Mall_Okinawa_Rycom_01.JPG", credit: "Kugel · CC BY-SA 4.0" },
+      aeon: { src: "assets/aeon-rycom.jpg", alt: "AEON MALL Okinawa Rycom 主要入口外觀", page: "https://commons.wikimedia.org/wiki/File:AEON_Mall_Okinawa_Rycom_01.JPG", credit: "Kugel~commonswiki · CC BY-SA 4.0" },
       naha: { src: "assets/kokusai-dori.jpg", alt: "那霸市區熱鬧的國際通街道與商店", page: "https://commons.wikimedia.org/wiki/File:Kokusai_Dori_01.JPG", credit: "Abasaa · Public Domain" },
-      daruma: { src: "assets/daruma-dera.jpg", alt: "那霸西来院達磨寺寧靜的寺院本堂", page: "https://commons.wikimedia.org/wiki/File:Sairai-in,_Naha.jpg", credit: "Kugel · CC BY-SA 4.0" },
-      makishi: { src: "assets/makishi-market.jpg", alt: "第一牧志公設市場攤位上的沖繩特色海產", page: "https://commons.wikimedia.org/wiki/File:Fish_of_Okinawa_sold_in_Makishi_First_Public_Market.JPG", credit: "Abasaa · Public Domain" },
+      shabu: { src: "assets/shabu-shabu.jpg", alt: "豬肉涮涮鍋的肉片、蔬菜與配料", page: "https://commons.wikimedia.org/wiki/File:Koisurubuta_shabu-shabu.jpg", credit: "アリオト · CC BY-SA 4.0" },
+      daruma: { src: "assets/daruma-dera.jpg", alt: "那霸西来院達磨寺寧靜的寺院本堂", page: "https://commons.wikimedia.org/wiki/File:Sairai-in,_Naha.jpg", credit: "運動会プロテインパワー · CC BY-SA 4.0" },
+      makishi: { src: "assets/makishi-market.jpg", alt: "第一牧志公設市場攤位上的沖繩特色海產", page: "https://commons.wikimedia.org/wiki/File:Fish_of_Okinawa_sold_in_Makishi_First_Public_Market.JPG", credit: "さかおり · CC BY-SA 3.0" },
       yakiniku: { src: "assets/yakiniku.jpg", alt: "烤網上滋滋作響的日式燒肉", page: "https://commons.wikimedia.org/wiki/File:Yakiniku_002.jpg", credit: "Jonathan Lin · CC BY-SA 2.0" },
-      umikaji: { src: "assets/umikaji-terrace.jpg", alt: "瀨長島 Umikaji Terrace 純白建築與海景露台", page: "https://commons.wikimedia.org/wiki/File:Umikaji_Terrace_Senagajima.jpg", credit: "Kugel · CC BY-SA 4.0" },
+      umikaji: { src: "assets/umikaji-terrace.jpg", alt: "瀨長島 Umikaji Terrace 純白建築與海景露台", page: "https://commons.wikimedia.org/wiki/File:Umikaji_Terrace_Senagajima.jpg", credit: "Kugel~commonswiki · CC BY-SA 4.0" },
       ashibinaa: { src: "assets/ashibinaa.jpg", alt: "沖繩 Outlet Mall Ashibinaa 的露天購物街區", page: "https://commons.wikimedia.org/wiki/File:Okinawa_Outlet_Mall_Ashibinaa06n4592.jpg", credit: "663highland · CC BY 2.5" }
     };
 
@@ -946,12 +1009,12 @@
       { day: 1, time: "15:30", name: "🛣️ 北上至本部／備瀨", type: "移動", lat: 26.7008, lng: 127.8792, note: "走高速約 2 小時 15 分；入住同一飯店兩晚，減少搬行李。", query: "備瀬のフクギ並木", photo: "bise" },
       { day: 2, time: "09:00", name: "🛶 備瀨透明獨木舟", type: "★ 必去", lat: 26.7046, lng: 127.8811, note: "首選 Kayak Fuku。需確認 65+ 長輩、六人三艇與 4 歲兒童安排。", query: "備瀬カヤックfuku", photo: "biseCoast" },
       { day: 2, time: "11:00", name: "🌉 古宇利大橋", type: "順路", lat: 26.6847, lng: 128.0180, note: "跨海景觀路線；長輩若累可留在車上看海。", query: "古宇利大橋", photo: "kouri" },
-      { day: 2, time: "11:30", name: "🦐 古宇利シュリンプ", type: "★ 蝦蝦飯", lat: 26.6985, lng: 128.0216, note: "古宇利店 11:00 開門，可能提早售完；有兒童椅與停車場。", query: "KOURI SHRIMP 古宇利島", photo: "kouri" },
+      { day: 2, time: "11:30", name: "🦐 古宇利シュリンプ", type: "★ 蝦蝦飯", lat: 26.6985, lng: 128.0216, note: "古宇利店 11:00 開門，可能提早售完；有兒童椅與停車場。照片為蒜香蝦飯代表圖片，非店內實景。", query: "KOURI SHRIMP 古宇利島", photo: "shrimp" },
       { day: 2, time: "14:00", name: "💤 回飯店休息", type: "留白", lat: 26.7008, lng: 127.8792, note: "下午不再排景點；午睡、玩水，替隔天水族館保留體力。", query: "備瀬のフクギ並木", photo: "bise" },
       { day: 3, time: "09:00", name: "🐋 美麗海水族館", type: "★ 必去", lat: 26.6943, lng: 127.8779, note: "早場人較少；停 P7 最近。4 歲免費，可借推車與輪椅。", query: "沖縄美ら海水族館 P7", photo: "churaumi" },
       { day: 3, time: "14:00", name: "🛍️ AEON MALL Okinawa Rycom", type: "★ 休息站", lat: 26.3148, lng: 127.7950, note: "午餐、冷氣休息、採買一次完成，不另算重體力景點。", query: "イオンモール沖縄ライカム", photo: "aeon" },
       { day: 3, time: "17:15", name: "🏨 入住那霸", type: "住宿", lat: 26.2190, lng: 127.6868, note: "連住兩晚；選有停車位、方便早上送機的區域。", query: "那覇市 おもろまち", photo: "naha" },
-      { day: 3, time: "19:00", name: "🐖 Ocean BOO! 阿古豬火鍋", type: "★ 晚餐", lat: 26.2167, lng: 127.6896, note: "預約六人個室並確認兒童椅；餐廳無自有停車場。照片為那霸市區代表景觀。", query: "Ocean BOO 那覇店", photo: "naha" },
+      { day: 3, time: "19:00", name: "🐖 Ocean BOO! 阿古豬火鍋", type: "★ 晚餐", lat: 26.2167, lng: 127.6896, note: "預約六人個室並確認兒童椅；餐廳無自有停車場。照片為豬肉涮涮鍋代表圖片，非店內實景。", query: "Ocean BOO 那覇店", photo: "shabu" },
       { day: 4, time: "09:30", name: "🙏 西来院 達磨寺", type: "★ 必去", lat: 26.2161, lng: 127.7188, note: "免費、停車方便，停留 30–45 分鐘即可。", query: "西来院 達磨寺 那覇", photo: "daruma" },
       { day: 4, time: "12:00", name: "🛟 颱風／延誤機動時段", type: "機動", lat: 26.2171, lng: 127.6910, note: "優先補玉泉洞或其他取消項目；無事則國際通、牧志市場或休息。", query: "国際通り 那覇", photo: "makishi" },
       { day: 4, time: "18:30", name: "🥩 敘敘苑 おもろまち店", type: "★ 晚餐", lat: 26.2278, lng: 127.6977, note: "預約六人座敷個室；個室費約加 5%。", query: "叙々苑 沖縄おもろまち店", photo: "yakiniku" },
@@ -962,17 +1025,45 @@
     ];
 
     const tripMain = document.getElementById("tripMain");
+    const mapStatus = document.getElementById("mapStatus");
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const motionOptions = () => ({ animate: !prefersReducedMotion.matches });
+    const scrollBehavior = () => prefersReducedMotion.matches ? "auto" : "smooth";
     const allBounds = L.latLngBounds(stops.map(stop => [stop.lat, stop.lng]));
-    const map = L.map("map", { zoomControl: false, minZoom: 8 });
+    const map = L.map("map", {
+      keyboard: false,
+      zoomControl: false,
+      minZoom: 8,
+      zoomAnimation: !prefersReducedMotion.matches,
+      fadeAnimation: !prefersReducedMotion.matches,
+      markerZoomAnimation: !prefersReducedMotion.matches,
+      inertia: !prefersReducedMotion.matches
+    });
+    map.getContainer().removeAttribute("tabindex");
     L.control.zoom({ position: "topright" }).addTo(map);
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+    const baseLayer = L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
       attribution: "© OpenStreetMap © CARTO",
       maxZoom: 19
-    }).addTo(map);
+    });
+    let tileErrorCount = 0;
+    baseLayer.on("loading", () => {
+      tileErrorCount = 0;
+    });
+    baseLayer.on("tileerror", () => {
+      tileErrorCount += 1;
+      mapStatus.textContent = "地圖暫時無法載入，請使用下方行程與 Google 地圖導航。";
+      mapStatus.classList.add("is-visible");
+    });
+    baseLayer.on("load", () => {
+      mapStatus.classList.toggle("is-visible", tileErrorCount > 0);
+      if (tileErrorCount === 0) mapStatus.textContent = "";
+    });
+    baseLayer.addTo(map);
 
     const routes = {};
     const markersByStop = new Map();
     let activeDay = null;
+    let routeMode = "all";
 
     Object.entries(days).forEach(([number, day]) => {
       const dayNumber = Number(number);
@@ -987,19 +1078,20 @@
       const markers = dayStops.map((stop, index) => {
         const photo = photos[stop.photo];
         const marker = L.marker([stop.lat, stop.lng], {
-          title: stop.name,
-          alt: `${day.date} ${stop.time} ${stop.name}`,
-          icon: L.divIcon({
-            className: "",
-            html: `<div class="route-pin" style="--pin-color:${day.color}">${index + 1}</div>`,
-            iconSize: [34, 34],
-            iconAnchor: [17, 17],
-            popupAnchor: [0, -16]
-          })
+         keyboard: false,
+         title: stop.name,
+         alt: `${day.date} ${stop.time} ${stop.name}`,
+         icon: L.divIcon({
+           className: "",
+           html: `<div class="route-pin" style="--pin-color:${day.color}">${index + 1}</div>`,
+           iconSize: [44, 44],
+           iconAnchor: [22, 22],
+           popupAnchor: [0, -20]
+         })
         }).addTo(map);
         marker.bindPopup(`
-          <article class="popup" style="--popup-color:${day.color}">
-            <a href="${photo.page}" target="_blank" rel="noopener"><img class="popup-photo" src="${photo.src}" alt="${photo.alt}"></a>
+         <article class="popup" style="--popup-color:${day.color}">
+           <a href="${photo.page}" target="_blank" rel="noopener"><img class="popup-photo" src="${photo.src}" alt="${photo.alt}" loading="lazy" decoding="async"></a>
             <span class="popup-time">${day.date}（${day.weekday}） · ${stop.time} · ${stop.type}</span>
             <h3>${stop.name}</h3>
             <p>${stop.note}</p>
@@ -1030,7 +1122,7 @@
       overviewButton.className = "overview-shortcut";
       overviewButton.setAttribute("aria-label", "返回五日總覽");
       overviewButton.innerHTML = `<span aria-hidden="true">←</span><span>五日總覽</span>`;
-      overviewButton.addEventListener("click", showOverview);
+      overviewButton.addEventListener("click", () => showOverview());
       board.appendChild(overviewButton);
       Object.entries(days).forEach(([number, day]) => {
         const dayNumber = Number(number);
@@ -1051,24 +1143,30 @@
     }
 
     function syncRoutes() {
+      const showAllRoutes = routeMode === "all" || activeDay === null;
       Object.entries(routes).forEach(([number, route]) => {
         const selected = activeDay === Number(number);
+        const visible = showAllRoutes || selected;
         route.line.setStyle({
           weight: selected ? 8 : 5,
-          opacity: activeDay === null ? .92 : selected ? 1 : .28,
-          dashArray: selected ? null : "2 9"
+          opacity: showAllRoutes ? .92 : selected ? 1 : .28,
+          dashArray: selected && !showAllRoutes ? null : "2 9"
         });
         if (selected && route.line.getElement()) route.line.bringToFront();
         route.markers.forEach(marker => {
-          marker.setOpacity(activeDay === null || selected ? 1 : .14);
+          marker.setOpacity(visible ? 1 : .14);
           const element = marker.getElement();
-          if (element) element.style.pointerEvents = activeDay === null || selected ? "auto" : "none";
+          if (element) {
+            element.style.pointerEvents = visible ? "auto" : "none";
+            element.setAttribute("aria-hidden", visible ? "false" : "true");
+          }
         });
       });
       document.querySelectorAll(".day-button").forEach(button => {
         const selected = Number(button.dataset.day) === activeDay;
         button.classList.toggle("active", selected);
-        button.setAttribute("aria-current", selected ? "date" : "false");
+        if (selected) button.setAttribute("aria-current", "date");
+        else button.removeAttribute("aria-current");
       });
     }
 
@@ -1081,6 +1179,7 @@
       document.getElementById("weatherTag").textContent = day.tag;
       document.getElementById("fallback").innerHTML = day.fallback;
       document.getElementById("firstNav").href = mapsUrl(dayStops[0]);
+      document.getElementById("dayStatus").textContent = `${day.date} 星期${day.weekday}，${day.title}，共 ${dayStops.length} 站。`;
 
       const list = document.getElementById("scheduleList");
       list.style.setProperty("--day-color", day.color);
@@ -1093,15 +1192,15 @@
           <time class="stop-time">${stop.time}</time>
           <span class="stop-dot" aria-hidden="true"></span>
           <div class="stop-copy">
-            <h3 class="stop-title">${stop.name}<span class="stop-type">${stop.type}</span></h3>
+            <h2 class="stop-title">${stop.name}<span class="stop-type">${stop.type}</span></h2>
             <p class="stop-note">${stop.note}</p>
             <a class="stop-nav" href="${mapsUrl(stop)}" target="_blank" rel="noopener">導航到這裡 <span aria-hidden="true">↗</span></a>
           </div>
-          <img class="stop-photo" src="${photo.src}" alt="${photo.alt}" title="在地圖查看此站" role="button" tabindex="0" loading="lazy">
+          <img class="stop-photo" src="${photo.src}" alt="${photo.alt}" title="在地圖查看此站" role="button" tabindex="0" loading="lazy" decoding="async">
         `;
-        item.addEventListener("mouseenter", () => map.panTo([stop.lat, stop.lng]));
+        item.addEventListener("mouseenter", () => map.panTo([stop.lat, stop.lng], motionOptions()));
         const focusStop = () => {
-          map.setView([stop.lat, stop.lng], 14, { animate: true });
+          map.setView([stop.lat, stop.lng], 14, motionOptions());
           markersByStop.get(stop).openPopup();
         };
         const stopPhoto = item.querySelector(".stop-photo");
@@ -1117,63 +1216,100 @@
     }
 
     function fitDay(dayNumber) {
+      if (!days[dayNumber]) return;
       const points = stops.filter(stop => stop.day === dayNumber).map(stop => [stop.lat, stop.lng]);
-      map.fitBounds(L.latLngBounds(points), { padding: [42, 42], maxZoom: 12 });
+      map.fitBounds(L.latLngBounds(points), { padding: [42, 42], maxZoom: 12, ...motionOptions() });
     }
 
-    function openDay(dayNumber, shouldScroll = true) {
+    function setDayMapHeading(dayNumber) {
+      const day = days[dayNumber];
+      document.getElementById("mapTitle").textContent = `${day.date} · ${day.title}`;
+      document.getElementById("mapSubtitle").textContent = day.summary;
+    }
+
+    function setOverviewMapHeading() {
+      document.getElementById("mapTitle").textContent = "五日全島路線";
+      document.getElementById("mapSubtitle").textContent = "那霸 → 本部／古宇利 → 那霸";
+    }
+
+    function writeHistory(hash, mode) {
+      if (!mode || location.hash === hash) return;
+      const url = `${location.pathname}${location.search}${hash}`;
+      const method = mode === "replace" ? "replaceState" : "pushState";
+      history[method]({ day: hash || null }, "", url);
+    }
+
+    function focusActiveDayRoute() {
+      if (!activeDay) return;
+      routeMode = "day";
+      syncRoutes();
+      setDayMapHeading(activeDay);
+      fitDay(activeDay);
+    }
+
+    function showAllRoutes() {
+      routeMode = "all";
+      syncRoutes();
+      setOverviewMapHeading();
+      map.fitBounds(allBounds, { padding: [44, 44], maxZoom: 10, ...motionOptions() });
+    }
+
+    function openDay(dayNumber, shouldScroll = true, historyMode = "push") {
+      if (!days[dayNumber]) return;
       activeDay = dayNumber;
+      routeMode = "day";
       const day = days[dayNumber];
       tripMain.classList.add("is-detail");
       tripMain.style.setProperty("--day-color", day.color);
       renderSchedule(dayNumber);
       syncRoutes();
-      document.getElementById("mapTitle").textContent = `${day.date} · ${day.title}`;
-      document.getElementById("mapSubtitle").textContent = day.summary;
+      setDayMapHeading(dayNumber);
       requestAnimationFrame(() => {
         map.invalidateSize();
         fitDay(dayNumber);
         if (shouldScroll && window.innerWidth <= 900) {
-          document.getElementById("dayBoard").scrollIntoView({ behavior: "smooth", block: "start" });
+          document.getElementById("dayBoard").scrollIntoView({ behavior: scrollBehavior(), block: "start" });
         }
       });
-      history.replaceState(null, "", `#day-${dayNumber}`);
+      writeHistory(`#day-${dayNumber}`, historyMode);
     }
 
-    function showOverview() {
+    function showOverview(historyMode = "push") {
       activeDay = null;
+      routeMode = "all";
       tripMain.classList.remove("is-detail");
       syncRoutes();
-      document.getElementById("mapTitle").textContent = "五日全島路線";
-      document.getElementById("mapSubtitle").textContent = "那霸 → 本部／古宇利 → 那霸";
+      setOverviewMapHeading();
+      document.getElementById("dayStatus").textContent = "已返回五日行程總覽。";
       requestAnimationFrame(() => {
         map.invalidateSize();
-        map.fitBounds(allBounds, { padding: [44, 44], maxZoom: 10 });
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        map.fitBounds(allBounds, { padding: [44, 44], maxZoom: 10, ...motionOptions() });
+        window.scrollTo({ top: 0, behavior: scrollBehavior() });
       });
-      history.replaceState(null, "", location.pathname);
+      writeHistory("", historyMode);
+    }
+
+    function syncViewFromLocation() {
+      const match = location.hash.match(/^#day-([1-5])$/);
+      if (match) openDay(Number(match[1]), false, null);
+      else showOverview(null);
     }
 
     renderDayBoard();
     syncRoutes();
     document.getElementById("startTrip").addEventListener("click", () => openDay(1));
-    document.getElementById("backOverview").addEventListener("click", showOverview);
+    document.getElementById("backOverview").addEventListener("click", () => showOverview());
     document.getElementById("showDayMap").addEventListener("click", () => {
-      fitDay(activeDay);
-      if (window.innerWidth <= 900) document.getElementById("map").scrollIntoView({ behavior: "smooth" });
+      focusActiveDayRoute();
+      if (window.innerWidth <= 900) document.getElementById("map").scrollIntoView({ behavior: scrollBehavior() });
     });
-    document.getElementById("fitDay").addEventListener("click", () => activeDay ? fitDay(activeDay) : openDay(1, false));
-    document.getElementById("fitAll").addEventListener("click", () => {
-      activeDay = null;
-      syncRoutes();
-      map.fitBounds(allBounds, { padding: [44, 44], maxZoom: 10 });
-    });
+    document.getElementById("fitDay").addEventListener("click", () => activeDay ? focusActiveDayRoute() : openDay(1, false));
+    document.getElementById("fitAll").addEventListener("click", showAllRoutes);
+    window.addEventListener("popstate", syncViewFromLocation);
 
     window.addEventListener("load", () => setTimeout(() => {
       map.invalidateSize();
-      const match = location.hash.match(/^#day-([1-5])$/);
-      if (match) openDay(Number(match[1]), false);
-      else map.fitBounds(allBounds, { padding: [44, 44], maxZoom: 10 });
+      syncViewFromLocation();
     }, 90));
   </script>
 </body>
