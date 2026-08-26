@@ -212,6 +212,29 @@
       line-height: 1.6;
     }
     .hero-note strong { display: block; margin-bottom: 3px; color: var(--sun); font-size: 12px; }
+    .trip-launch {
+      position: relative;
+      display: inline-flex;
+      flex: 0 0 auto;
+      align-self: flex-end;
+      padding-top: 31px;
+    }
+    .turtle-friend {
+      position: absolute;
+      z-index: 2;
+      top: -3px;
+      right: 7px;
+      width: 67px;
+      height: auto;
+      filter: drop-shadow(0 7px 6px rgba(5, 73, 86, .22));
+      pointer-events: none;
+      transform: rotate(-4deg);
+    }
+    .turtle-friend .hello-fin {
+      transform-box: fill-box;
+      transform-origin: 90% 70%;
+      animation: turtleHello 1.05s var(--ease) .55s both;
+    }
     .primary-action {
       display: inline-flex;
       min-height: 48px;
@@ -610,6 +633,11 @@
       from { opacity: .2; clip-path: inset(0 0 12% 0); transform: translateY(14px); }
       to { opacity: 1; clip-path: inset(0); transform: translateY(0); }
     }
+    @keyframes turtleHello {
+      0%, 100% { transform: rotate(0); }
+      42% { transform: rotate(-23deg); }
+      70% { transform: rotate(8deg); }
+    }
 
     @media (max-width: 900px) {
       .topbar { min-height: 60px; padding: 10px 16px; }
@@ -688,6 +716,7 @@
         line-height: .94;
       }
       .hero-footer { align-items: stretch; flex-direction: column; gap: 15px; }
+      .trip-launch { align-self: flex-start; }
       .hero-footer .primary-action {
         width: fit-content;
         max-width: 100%;
@@ -757,7 +786,22 @@
       </div>
       <div class="hero-footer">
         <div class="hero-note"><strong>行程原則</strong>把最吃天氣的活動排在前面，9/4 保留為颱風與延誤機動日。</div>
-        <button class="primary-action" id="startTrip" type="button">從第一天開始 <span aria-hidden="true">→</span></button>
+        <div class="trip-launch">
+          <svg class="turtle-friend" viewBox="0 0 110 76" aria-hidden="true">
+            <ellipse cx="55" cy="67" rx="34" ry="5" fill="#074956" opacity=".16"/>
+            <path d="M29 50c-10 1-16 7-18 15 9 1 17-2 23-9Z" fill="#bce9d4" stroke="#074956" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M49 57c-2 9 1 15 7 19 5-7 5-14 1-21Z" fill="#bce9d4" stroke="#074956" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M27 37 16 31l3 11Z" fill="#bce9d4" stroke="#074956" stroke-width="3" stroke-linejoin="round"/>
+            <ellipse cx="50" cy="38" rx="29" ry="23" fill="#ffc857" stroke="#074956" stroke-width="3"/>
+            <path d="M31 30c10-8 26-9 39-2M28 42c12 8 29 9 43 1M43 17c-1 15-1 28 2 43M59 17c4 13 4 27 0 42" fill="none" stroke="#f26f5b" stroke-width="2.5" stroke-linecap="round" opacity=".82"/>
+            <path class="hello-fin" d="M68 25c4-9 10-14 18-16 2 9-2 17-12 22Z" fill="#bce9d4" stroke="#074956" stroke-width="3" stroke-linejoin="round"/>
+            <circle cx="82" cy="39" r="14" fill="#bce9d4" stroke="#074956" stroke-width="3"/>
+            <circle cx="87" cy="35" r="2.2" fill="#074956"/>
+            <circle cx="90" cy="41" r="2.3" fill="#f26f5b" opacity=".62"/>
+            <path d="M87 42c-2 3-5 4-8 2" fill="none" stroke="#074956" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <button class="primary-action" id="startTrip" type="button">從第一天開始 <span aria-hidden="true">→</span></button>
+        </div>
       </div>
     </section>
 
