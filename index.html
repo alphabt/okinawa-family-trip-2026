@@ -93,7 +93,7 @@
     .brand-mark::after { bottom: -1px; background: var(--sky); transform: rotate(6deg); }
     .brand-name {
       font-family: "Zen Maru Gothic", sans-serif;
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 900;
       line-height: 1.15;
       white-space: nowrap;
@@ -103,7 +103,7 @@
       margin-top: 3px;
       color: #b9d9d9;
       font-family: "Noto Sans TC", sans-serif;
-      font-size: 9px;
+      font-size: 11px;
       font-weight: 700;
       letter-spacing: .12em;
     }
@@ -112,7 +112,7 @@
       align-items: center;
       gap: 18px;
       color: #d8ecea;
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 650;
     }
     .trip-meta span + span {
@@ -180,7 +180,7 @@
       max-width: 33ch;
       margin: 24px 0 0;
       color: #d9eeeb;
-      font-size: clamp(14px, 1.35vw, 17px);
+      font-size: clamp(16px, 1.35vw, 18px);
       line-height: 1.75;
     }
     .hero-stats {
@@ -195,7 +195,7 @@
       background: rgba(255, 255, 255, .11);
       border: 1px solid rgba(255, 255, 255, .2);
       border-radius: 999px;
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 750;
     }
     .hero-footer {
@@ -208,10 +208,10 @@
     .hero-note {
       max-width: 28ch;
       color: #c8e4e1;
-      font-size: 11px;
+      font-size: 14px;
       line-height: 1.6;
     }
-    .hero-note strong { display: block; margin-bottom: 3px; color: var(--sun); font-size: 12px; }
+    .hero-note strong { display: block; margin-bottom: 3px; color: var(--sun); font-size: 14px; }
     .trip-launch {
       position: relative;
       display: inline-flex;
@@ -248,7 +248,7 @@
       border: 0;
       border-radius: 999px;
       box-shadow: 0 8px 0 rgba(5, 73, 86, .24);
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 850;
       text-decoration: none;
       white-space: nowrap;
@@ -266,7 +266,12 @@
       background: #bfe4e2;
     }
     #map { width: 100%; height: 100%; background: #bfe4e2; }
-    #map .leaflet-tile-pane { filter: saturate(.74) hue-rotate(112deg) brightness(1.04); }
+    #map .leaflet-tile-pane { filter: grayscale(.12) saturate(.58) contrast(1.18) brightness(.96); }
+    #map .leaflet-overlay-pane path {
+      filter:
+        drop-shadow(0 0 1px rgba(255, 255, 255, .98))
+        drop-shadow(0 0 3px rgba(255, 255, 255, .92));
+    }
     .map-heading {
       position: absolute;
       z-index: 500;
@@ -281,8 +286,8 @@
       pointer-events: none;
     }
     .map-heading strong, .map-heading span { display: block; }
-    .map-heading strong { font-family: "Zen Maru Gothic", sans-serif; font-size: 14px; }
-    .map-heading span { margin-top: 2px; color: var(--muted); font-size: 9px; font-weight: 650; }
+    .map-heading strong { font-family: "Zen Maru Gothic", sans-serif; font-size: 17px; }
+    .map-heading span { margin-top: 3px; color: var(--muted); font-size: 12px; font-weight: 700; }
     .map-controls {
       position: absolute;
       z-index: 500;
@@ -300,7 +305,7 @@
       border: 0;
       border-radius: 999px;
       box-shadow: 0 7px 20px rgba(7, 73, 86, .2);
-      font-size: 10px;
+      font-size: 13px;
       font-weight: 800;
     }
     .map-control:hover { background: var(--ocean); }
@@ -345,7 +350,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      font-size: 10px;
+      font-size: 13px;
       font-weight: 850;
     }
     .day-number {
@@ -356,7 +361,7 @@
       color: var(--day-color);
       background: color-mix(in srgb, var(--day-color) 12%, white);
       border-radius: 50%;
-      font-size: 10px;
+      font-size: 12px;
     }
     .day-button.active .day-number { color: var(--day-color); background: #fff; }
     .day-button strong {
@@ -364,7 +369,7 @@
       overflow: hidden;
       margin-top: 10px;
       font-family: "Zen Maru Gothic", sans-serif;
-      font-size: 13px;
+      font-size: 16px;
       font-weight: 900;
       line-height: 1.3;
       text-overflow: ellipsis;
@@ -375,7 +380,7 @@
       overflow: hidden;
       margin-top: 4px;
       color: var(--muted);
-      font-size: 9px;
+      font-size: 12px;
       font-weight: 600;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -403,7 +408,7 @@
       color: var(--ocean);
       background: none;
       border: 0;
-      font-size: 11px;
+      font-size: 14px;
       font-weight: 850;
     }
     .back-button:hover { color: var(--coral); }
@@ -415,7 +420,7 @@
     }
     .detail-day {
       color: var(--day-color);
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 900;
       letter-spacing: .06em;
     }
@@ -424,7 +429,7 @@
       color: var(--ocean-deep);
       background: var(--sun);
       border-radius: 999px;
-      font-size: 9px;
+      font-size: 12px;
       font-weight: 850;
     }
     .detail-header h2 {
@@ -440,7 +445,7 @@
       max-width: 48ch;
       margin: 13px 0 0;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 16px;
       line-height: 1.7;
     }
     .detail-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 21px; }
@@ -455,7 +460,7 @@
       background: transparent;
       border: 1px solid rgba(8, 107, 120, .26);
       border-radius: 999px;
-      font-size: 11px;
+      font-size: 14px;
       font-weight: 800;
     }
     .secondary-action:hover { background: rgba(20, 169, 154, .08); }
@@ -486,7 +491,7 @@
     .stop-time {
       padding-top: 4px;
       color: var(--ink);
-      font-size: 12px;
+      font-size: 15px;
       font-weight: 900;
       font-variant-numeric: tabular-nums;
     }
@@ -504,7 +509,7 @@
     .stop-copy { min-width: 0; }
     .stop-title {
       margin: 0;
-      font-size: 14px;
+      font-size: 17px;
       font-weight: 850;
       line-height: 1.4;
     }
@@ -512,7 +517,7 @@
       display: inline-block;
       margin-left: 7px;
       color: var(--day-color);
-      font-size: 9px;
+      font-size: 12px;
       font-weight: 850;
       vertical-align: 2px;
     }
@@ -520,12 +525,12 @@
       max-width: 50ch;
       margin: 4px 0 0;
       color: var(--muted);
-      font-size: 10.5px;
+      font-size: 14px;
       line-height: 1.6;
     }
     .stop-nav {
       display: inline-flex;
-      min-height: 34px;
+      min-height: 40px;
       align-items: center;
       justify-content: center;
       gap: 5px;
@@ -535,7 +540,7 @@
       background: #fff;
       border: 1px solid rgba(8, 107, 120, .2);
       border-radius: 999px;
-      font-size: 9px;
+      font-size: 13px;
       font-weight: 850;
       text-decoration: none;
     }
@@ -555,12 +560,12 @@
       background: var(--ocean-deep);
       border-radius: 18px;
     }
-    .fallback strong { display: block; margin-bottom: 5px; color: var(--sun); font-size: 11px; }
-    .fallback p { margin: 0; color: #d5e8e6; font-size: 10.5px; line-height: 1.65; }
+    .fallback strong { display: block; margin-bottom: 5px; color: var(--sun); font-size: 14px; }
+    .fallback p { margin: 0; color: #d5e8e6; font-size: 14px; line-height: 1.65; }
 
     .trip-main.is-detail {
       grid-template-columns: minmax(330px, 43%) minmax(0, 57%);
-      grid-template-rows: 104px minmax(540px, calc(100dvh - 170px));
+      grid-template-rows: 116px minmax(540px, calc(100dvh - 182px));
     }
     .trip-main.is-detail .overview-hero { display: none; }
     .trip-main.is-detail .map-stage { grid-column: 1; grid-row: 1 / -1; }
@@ -570,10 +575,10 @@
       box-shadow: 0 8px 22px rgba(5, 73, 86, .07);
     }
     .trip-main.is-detail .day-button {
-      min-height: 104px;
+      min-height: 116px;
       padding: 14px 12px 10px;
     }
-    .trip-main.is-detail .day-button strong { font-size: 10px; }
+    .trip-main.is-detail .day-button strong { font-size: 13px; }
     .trip-main.is-detail .day-button small { display: none; }
     .trip-main.is-detail .detail-panel {
       display: block;
@@ -584,15 +589,15 @@
 
     .route-pin {
       display: grid;
-      width: 28px;
-      height: 28px;
+      width: 34px;
+      height: 34px;
       place-items: center;
       color: #fff;
       background: var(--pin-color);
       border: 3px solid #fff;
       border-radius: 50%;
       box-shadow: 0 5px 14px rgba(5, 73, 86, .3);
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 900;
     }
     .leaflet-popup-content-wrapper {
@@ -617,17 +622,17 @@
       display: block;
       margin-bottom: 5px;
       color: var(--popup-color);
-      font-size: 9px;
+      font-size: 12px;
       font-weight: 900;
     }
-    .popup h3 { margin: 0; font-size: 15px; line-height: 1.35; }
-    .popup p { margin: 7px 0 12px; color: var(--muted); font-size: 10.5px; line-height: 1.55; }
+    .popup h3 { margin: 0; font-size: 17px; line-height: 1.35; }
+    .popup p { margin: 7px 0 12px; color: var(--muted); font-size: 14px; line-height: 1.55; }
     .popup-links { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-    .popup a { color: var(--ocean); font-size: 10px; font-weight: 850; text-decoration: none; }
-    .popup .credit { color: var(--muted); font-size: 8px; font-weight: 600; text-align: right; }
+    .popup a { color: var(--ocean); font-size: 13px; font-weight: 850; text-decoration: none; }
+    .popup .credit { color: var(--muted); font-size: 11px; font-weight: 600; text-align: right; }
     .leaflet-control-zoom { border: 0 !important; box-shadow: 0 6px 18px rgba(5, 73, 86, .16) !important; }
     .leaflet-control-zoom a { color: var(--ocean-deep) !important; background: #fff !important; }
-    .leaflet-control-attribution { color: var(--muted); background: rgba(255, 255, 255, .78) !important; font-size: 8px; }
+    .leaflet-control-attribution { color: var(--muted); background: rgba(255, 255, 255, .9) !important; font-size: 10px; }
 
     @keyframes dayReveal {
       from { opacity: .2; clip-path: inset(0 0 12% 0); transform: translateY(14px); }
@@ -641,7 +646,7 @@
 
     @media (max-width: 900px) {
       .topbar { min-height: 60px; padding: 10px 16px; }
-      .brand-name { font-size: 15px; }
+      .brand-name { font-size: 17px; }
       .trip-meta span:first-child { display: none; }
       .trip-meta span + span { padding-left: 0; border-left: 0; }
 
@@ -659,7 +664,7 @@
         padding: 34px 20px 30px;
       }
       .hero-copy h1 { max-width: 9ch; font-size: clamp(48px, 10vw, 66px); }
-      .hero-copy p { margin-top: 17px; font-size: 13px; }
+      .hero-copy p { margin-top: 17px; font-size: 16px; }
       .hero-stats { margin-top: 20px; }
       .hero-footer { padding-top: 28px; }
       .map-stage,
@@ -676,7 +681,7 @@
         top: 0;
         z-index: 850;
         display: grid;
-        grid-template-columns: repeat(5, minmax(145px, 1fr));
+        grid-template-columns: repeat(5, minmax(170px, 1fr));
         grid-column: 1;
         grid-row: 3;
         overflow-x: auto;
@@ -686,10 +691,10 @@
       }
       .day-button,
       .trip-main.is-detail .day-button {
-        min-height: 100px;
+        min-height: 116px;
         padding: 15px 14px 12px;
       }
-      .trip-main.is-detail .day-button strong { font-size: 12px; }
+      .trip-main.is-detail .day-button strong { font-size: 16px; }
       .trip-main.is-detail .day-button small { display: block; }
       .trip-main.is-detail .overview-hero { display: none; }
       .trip-main.is-detail .detail-panel {
@@ -701,14 +706,14 @@
         padding: 28px 18px calc(42px + env(safe-area-inset-bottom));
       }
       .back-button { margin-bottom: 22px; }
-      .schedule-stop { grid-template-columns: 49px 18px minmax(0, 1fr) 88px; gap: 8px; }
-      .schedule-list::before { left: 66px; }
+      .schedule-stop { grid-template-columns: 54px 20px minmax(0, 1fr) 88px; gap: 10px; }
+      .schedule-list::before { left: 74px; }
       .stop-photo { width: 88px; height: 68px; border-radius: 13px; }
       .fallback { margin-left: 0; }
     }
 
     @media (max-width: 470px) {
-      .trip-meta { font-size: 9px; }
+      .trip-meta { font-size: 11px; }
       .overview-hero { min-height: 402px; }
       .hero-copy h1 {
         max-width: 9ch;
@@ -731,7 +736,7 @@
         min-height: 250px;
       }
       .map-heading { max-width: calc(100% - 92px); padding: 9px 11px; }
-      .map-heading strong { font-size: 12px; }
+      .map-heading strong { font-size: 15px; }
       .map-heading span { display: none; }
       .map-controls { flex-direction: column; }
       .map-control { min-height: 38px; }
@@ -741,7 +746,7 @@
         grid-template-columns: 45px 16px minmax(0, 1fr) 72px;
         gap: 7px;
       }
-      .schedule-list::before { left: 58px; }
+      .schedule-list::before { left: 60px; }
       .stop-photo { width: 72px; height: 58px; border-radius: 11px; }
       .stop-title { font-size: 13px; }
       .stop-type { display: block; margin: 2px 0 0; }
@@ -843,35 +848,35 @@
   <script>
     const days = {
       1: {
-        date: "9/1", weekday: "二", color: "#f26f5b",
+        date: "9/1", weekday: "二", color: "#c9473b",
         title: "抵達、玉泉洞、北上", short: "玉泉洞 → 本部",
         summary: "第一天只排一個正式景點；若落地或取車延誤，直接放棄玉泉洞。",
         tag: "可直接縮短",
         fallback: "<strong>颱風／延誤方案</strong><p>玉泉洞改排 9/4 機動時段；若已發布暴風警報，不開車北上，依官方指示留在安全室內。</p>"
       },
       2: {
-        date: "9/2", weekday: "三", color: "#e59b24",
+        date: "9/2", weekday: "三", color: "#8a5b00",
         title: "透明獨木舟與古宇利", short: "備瀨 → 古宇利",
         summary: "把最吃海況的活動排在早晨；午餐後完全留白，長輩與孩子都能休息。",
         tag: "海況優先",
         fallback: "<strong>海況不佳方案</strong><p>獨木舟取消通常可免取消費；改搭部瀨名玻璃底船，或回飯店休息。不要硬塞進水族館。</p>"
       },
       3: {
-        date: "9/3", weekday: "四", color: "#14a99a",
+        date: "9/3", weekday: "四", color: "#087d72",
         title: "美麗海、AEON、那霸", short: "美麗海 → 那霸",
         summary: "上午看水族館，午後用 AEON 當南下途中的午餐、冷氣與購物休息站。",
         tag: "室內緩衝",
         fallback: "<strong>下雨方案</strong><p>美麗海與 AEON 都適合雨天；若風雨已影響道路安全，延後退房並取消跨區移動。</p>"
       },
       4: {
-        date: "9/4", weekday: "五", color: "#55a8dd",
+        date: "9/4", weekday: "五", color: "#2d6f9c",
         title: "達磨寺與機動日", short: "達磨寺 → 機動",
         summary: "只鎖定短停達磨寺與晚餐，其餘時間專門承接前三天被天候打亂的項目。",
         tag: "核心備援日",
         fallback: "<strong>無需補行程時</strong><p>中午後可去國際通、牧志市場或回飯店。北谷煙火不特地追，避免週五車潮增加全家疲勞。</p>"
       },
       5: {
-        date: "9/5", weekday: "六", color: "#8c72c4",
+        date: "9/5", weekday: "六", color: "#684aa3",
         title: "分批搭機、近機場活動", short: "送機 → 瀨長島",
         summary: "先送妻姊搭 10:10 班機；其他五人只在機場周邊活動，保留充足還車時間。",
         tag: "17:00 末班接駁",
@@ -936,8 +941,8 @@
       const dayStops = stops.filter(stop => stop.day === dayNumber);
       const line = L.polyline(dayStops.map(stop => [stop.lat, stop.lng]), {
         color: day.color,
-        weight: 4,
-        opacity: .72,
+        weight: 5,
+        opacity: .92,
         dashArray: "2 9",
         lineCap: "round"
       }).addTo(map);
@@ -949,9 +954,9 @@
           icon: L.divIcon({
             className: "",
             html: `<div class="route-pin" style="--pin-color:${day.color}">${index + 1}</div>`,
-            iconSize: [28, 28],
-            iconAnchor: [14, 14],
-            popupAnchor: [0, -13]
+            iconSize: [34, 34],
+            iconAnchor: [17, 17],
+            popupAnchor: [0, -16]
           })
         }).addTo(map);
         marker.bindPopup(`
@@ -1004,8 +1009,8 @@
       Object.entries(routes).forEach(([number, route]) => {
         const selected = activeDay === Number(number);
         route.line.setStyle({
-          weight: selected ? 6 : 4,
-          opacity: activeDay === null ? .72 : selected ? 1 : .18,
+          weight: selected ? 8 : 5,
+          opacity: activeDay === null ? .92 : selected ? 1 : .28,
           dashArray: selected ? null : "2 9"
         });
         if (selected && route.line.getElement()) route.line.bringToFront();
