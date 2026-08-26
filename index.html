@@ -321,6 +321,28 @@
       border-top: 1px solid var(--line);
       box-shadow: 0 -10px 30px rgba(5, 73, 86, .08);
     }
+    .overview-shortcut {
+      display: none;
+      min-width: 0;
+      min-height: 116px;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 14px 10px;
+      cursor: pointer;
+      color: #fff;
+      background: var(--ocean-deep);
+      border: 0;
+      border-right: 1px solid rgba(255, 255, 255, .18);
+      font-size: 13px;
+      font-weight: 850;
+      line-height: 1.25;
+    }
+    .overview-shortcut span:first-child {
+      font-size: 21px;
+      line-height: 1;
+    }
+    .overview-shortcut:hover { background: var(--ocean); }
     .day-button {
       position: relative;
       min-width: 0;
@@ -572,8 +594,10 @@
     .trip-main.is-detail .day-board {
       grid-column: 2;
       grid-row: 1;
+      grid-template-columns: 88px repeat(5, minmax(0, 1fr));
       box-shadow: 0 8px 22px rgba(5, 73, 86, .07);
     }
+    .trip-main.is-detail .overview-shortcut { display: flex; }
     .trip-main.is-detail .day-button {
       min-height: 116px;
       padding: 14px 12px 10px;
@@ -688,6 +712,9 @@
         overscroll-behavior-x: contain;
         box-shadow: 0 8px 24px rgba(5, 73, 86, .12);
         scrollbar-width: thin;
+      }
+      .trip-main.is-detail .day-board {
+        grid-template-columns: 92px repeat(5, minmax(170px, 1fr));
       }
       .day-button,
       .trip-main.is-detail .day-button {
@@ -987,6 +1014,13 @@
     function renderDayBoard() {
       const board = document.getElementById("dayBoard");
       board.innerHTML = "";
+      const overviewButton = document.createElement("button");
+      overviewButton.type = "button";
+      overviewButton.className = "overview-shortcut";
+      overviewButton.setAttribute("aria-label", "返回五日總覽");
+      overviewButton.innerHTML = `<span aria-hidden="true">←</span><span>五日總覽</span>`;
+      overviewButton.addEventListener("click", showOverview);
+      board.appendChild(overviewButton);
       Object.entries(days).forEach(([number, day]) => {
         const dayNumber = Number(number);
         const button = document.createElement("button");
