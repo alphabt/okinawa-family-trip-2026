@@ -1,0 +1,805 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#102d32">
+  <meta name="description" content="2026 年 9 月沖繩六人家庭自駕互動行程：北部兩晚、那霸兩晚，兼顧長輩、幼童與颱風備案。">
+  <meta property="og:title" content="沖繩家庭自駕｜2026.09.01–09.05">
+  <meta property="og:description" content="五天四夜互動路線、每日節奏與颱風備案。">
+  <meta property="og:type" content="website">
+  <title>沖繩家庭自駕｜2026.09.01–09.05</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://basemaps.cartocdn.com">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root {
+      --ink: #173439;
+      --muted: #668085;
+      --paper: #f7f4eb;
+      --paper-deep: #ece7d9;
+      --sea: #1d6872;
+      --sea-dark: #102d32;
+      --sun: #f0a43c;
+      --coral: #de6d55;
+      --line: rgba(23, 52, 57, .14);
+      --shadow: 0 18px 50px rgba(16, 45, 50, .18);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "PingFang TC", "Noto Sans TC", "Hiragino Sans", system-ui, sans-serif;
+    }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid rgba(240, 164, 60, .62);
+      outline-offset: 2px;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(340px, 390px) 1fr;
+      width: 100%;
+      height: 100dvh;
+    }
+
+    .planner {
+      position: relative;
+      z-index: 500;
+      display: flex;
+      min-width: 0;
+      min-height: 0;
+      flex-direction: column;
+      background:
+        radial-gradient(circle at 93% 2%, rgba(240, 164, 60, .19), transparent 25%),
+        var(--paper);
+      border-right: 1px solid rgba(16, 45, 50, .15);
+      box-shadow: 10px 0 35px rgba(16, 45, 50, .10);
+    }
+
+    .masthead {
+      flex: none;
+      padding: 24px 24px 18px;
+      color: #f8f3e8;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, .07), transparent 44%),
+        var(--sea-dark);
+    }
+    .trip-mark {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .island-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: #c9dedc;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+    .island-mark::before {
+      width: 26px;
+      height: 10px;
+      content: "";
+      border: 2px solid var(--sun);
+      border-radius: 70% 35% 65% 40%;
+      transform: rotate(-16deg);
+    }
+    .party {
+      padding: 5px 8px;
+      color: #f9dfb5;
+      border: 1px solid rgba(249, 223, 181, .28);
+      border-radius: 99px;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+    h1 {
+      max-width: 9ch;
+      margin: 0;
+      font-size: clamp(32px, 4vw, 44px);
+      font-weight: 850;
+      line-height: .98;
+      letter-spacing: -.05em;
+    }
+    .date {
+      margin-top: 13px;
+      color: #bad0d1;
+      font-size: 13px;
+      letter-spacing: .035em;
+    }
+    .pace {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 18px;
+      padding-top: 15px;
+      color: #f4e8d2;
+      border-top: 1px solid rgba(255, 255, 255, .13);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .pace strong {
+      display: inline-grid;
+      width: 25px;
+      height: 25px;
+      flex: 0 0 25px;
+      place-items: center;
+      color: var(--sea-dark);
+      background: var(--sun);
+      border-radius: 50%;
+      font-size: 13px;
+    }
+
+    .day-tabs {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      flex: none;
+      border-bottom: 1px solid var(--line);
+      background: #fffcf4;
+    }
+    .day-tab {
+      position: relative;
+      min-width: 0;
+      padding: 12px 3px 11px;
+      cursor: pointer;
+      color: var(--muted);
+      background: transparent;
+      border: 0;
+      border-right: 1px solid var(--line);
+      font-size: 11px;
+      font-weight: 750;
+      line-height: 1.2;
+      transition: color .18s ease, background .18s ease;
+    }
+    .day-tab:last-child { border-right: 0; }
+    .day-tab:hover { background: var(--paper-deep); }
+    .day-tab.active {
+      color: var(--ink);
+      background: var(--paper);
+    }
+    .day-tab.active::after {
+      position: absolute;
+      right: 12px;
+      bottom: 0;
+      left: 12px;
+      height: 3px;
+      content: "";
+      background: var(--day-color);
+      border-radius: 3px 3px 0 0;
+    }
+    .day-tab span {
+      display: block;
+      margin-top: 3px;
+      font-size: 15px;
+    }
+
+    .schedule {
+      min-height: 0;
+      flex: 1;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: 20px 20px 34px;
+      scrollbar-color: rgba(29, 104, 114, .35) transparent;
+    }
+    .day-intro {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin: 0 2px 18px;
+    }
+    .day-intro h2 {
+      margin: 0 0 5px;
+      font-size: 20px;
+      line-height: 1.16;
+      letter-spacing: -.035em;
+    }
+    .day-intro p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    .weather-tag {
+      flex: none;
+      padding: 6px 8px;
+      color: #764f11;
+      background: #f9e7bd;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+
+    .timeline {
+      position: relative;
+      margin-left: 4px;
+    }
+    .timeline::before {
+      position: absolute;
+      top: 10px;
+      bottom: 10px;
+      left: 57px;
+      width: 1px;
+      content: "";
+      background: var(--line);
+    }
+    .stop {
+      position: relative;
+      display: grid;
+      grid-template-columns: 44px 18px 1fr;
+      gap: 10px;
+      padding: 0 0 19px;
+      cursor: pointer;
+    }
+    .stop:last-child { padding-bottom: 0; }
+    .stop-time {
+      padding-top: 2px;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    .stop-pin {
+      position: relative;
+      z-index: 1;
+      width: 12px;
+      height: 12px;
+      margin: 3px auto 0;
+      background: var(--day-color);
+      border: 3px solid var(--paper);
+      border-radius: 50%;
+      box-shadow: 0 0 0 1px var(--day-color);
+    }
+    .stop-main {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 88px;
+      gap: 12px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--line);
+    }
+    .stop-copy { min-width: 0; }
+    .stop:last-child .stop-main { border-bottom: 0; }
+    .stop-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 0;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+    .stop-title em {
+      flex: none;
+      color: var(--day-color);
+      font-size: 10px;
+      font-style: normal;
+      letter-spacing: .02em;
+    }
+    .stop-note {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.58;
+    }
+    .stop-thumb {
+      width: 88px;
+      height: 66px;
+      align-self: start;
+      object-fit: cover;
+      background: var(--paper-deep);
+      border-radius: 5px;
+      box-shadow: 0 5px 12px rgba(16, 45, 50, .13);
+    }
+    .stop:hover .stop-title { color: var(--sea); }
+
+    .fallback {
+      margin-top: 22px;
+      padding: 14px 15px;
+      color: #e9f3ef;
+      background: var(--sea);
+      border-radius: 7px;
+      box-shadow: 0 8px 20px rgba(29, 104, 114, .15);
+    }
+    .fallback b {
+      display: block;
+      margin-bottom: 5px;
+      color: #fff;
+      font-size: 12px;
+    }
+    .fallback p {
+      margin: 0;
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    .map-wrap { position: relative; min-width: 0; min-height: 0; }
+    #map { width: 100%; height: 100%; background: #d9e7e3; }
+    .map-tools {
+      position: absolute;
+      z-index: 450;
+      top: 18px;
+      right: 18px;
+      display: flex;
+      gap: 8px;
+    }
+    .map-tool {
+      padding: 9px 12px;
+      cursor: pointer;
+      color: var(--ink);
+      background: rgba(255, 252, 244, .94);
+      border: 1px solid rgba(16, 45, 50, .16);
+      border-radius: 5px;
+      box-shadow: 0 5px 15px rgba(16, 45, 50, .13);
+      font-size: 11px;
+      font-weight: 800;
+      backdrop-filter: blur(8px);
+    }
+    .map-tool:hover { background: #fff; }
+
+    .route-pin {
+      display: grid;
+      width: 29px;
+      height: 29px;
+      place-items: center;
+      color: #fff;
+      background: var(--pin-color);
+      border: 2px solid #fff8eb;
+      border-radius: 50% 50% 50% 10%;
+      box-shadow: 0 5px 13px rgba(16, 45, 50, .32);
+      font-size: 11px;
+      font-weight: 850;
+      transform: rotate(-45deg);
+    }
+    .route-pin span { transform: rotate(45deg); }
+    .leaflet-popup-content-wrapper {
+      overflow: hidden;
+      padding: 0;
+      color: var(--ink);
+      background: #fffdf7;
+      border-radius: 7px;
+      box-shadow: var(--shadow);
+    }
+    .leaflet-popup-content { width: 240px !important; margin: 0; }
+    .leaflet-popup-tip { background: #fffdf7; }
+    .popup {
+      padding: 16px;
+      border-top: 4px solid var(--popup-color);
+    }
+    .popup-photo {
+      display: block;
+      width: calc(100% + 32px);
+      height: 128px;
+      margin: -16px -16px 13px;
+      object-fit: cover;
+      background: var(--paper-deep);
+    }
+    .popup-time {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--popup-color);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: .05em;
+    }
+    .popup h3 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.32;
+    }
+    .popup p {
+      margin: 8px 0 12px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .popup a {
+      color: var(--sea);
+      font-size: 11px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .popup-links {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .popup-links .credit {
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .leaflet-control-zoom { border: 0 !important; box-shadow: 0 5px 18px rgba(16, 45, 50, .17) !important; }
+    .leaflet-control-zoom a { color: var(--ink) !important; background: #fffdf7 !important; }
+    .leaflet-control-attribution { color: var(--muted); background: rgba(255, 253, 247, .8) !important; font-size: 9px; }
+
+    @media (max-width: 760px) {
+      body { overflow: auto; }
+      .shell {
+        display: flex;
+        height: auto;
+        min-height: 100dvh;
+        flex-direction: column;
+      }
+      .map-wrap {
+        order: 1;
+        height: 48dvh;
+        min-height: 340px;
+      }
+      .planner {
+        order: 2;
+        min-height: 52dvh;
+        border-top: 1px solid rgba(16, 45, 50, .15);
+        border-right: 0;
+        box-shadow: 0 -12px 35px rgba(16, 45, 50, .12);
+      }
+      .masthead { padding: 19px 20px 17px; }
+      .trip-mark { margin-bottom: 13px; }
+      h1 { max-width: none; font-size: 32px; }
+      .date { margin-top: 8px; }
+      .pace { margin-top: 13px; padding-top: 12px; }
+      .schedule { overflow: visible; padding: 18px 18px calc(32px + env(safe-area-inset-bottom)); }
+      .map-tools { top: 12px; right: 12px; }
+    }
+
+    @media (max-width: 380px) {
+      .party { display: none; }
+      .day-tab { font-size: 10px; }
+      .day-tab span { font-size: 13px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    THESIS: 以「家庭路線手帳」取代資訊卡牆；地圖與每日節奏並列，任何人都能立即看懂今天去哪裡、何時休息。
+    OWN-WORLD: 沖繩海色、曬暖紙張與珊瑚橘；以連續時間軸、路線色與實體旅程標記組成介面。
+    STORY: 先選日期，再閱讀少量停靠點；點擊任何一站即可在地圖定位並開啟導航。
+    FIRST VIEWPORT: 桌面左側是行程手帳、右側是全島地圖；手機先看地圖，再往下看當日時間軸。
+    FORM: Operate 模式的雙欄路線工作台；延續既有地圖功能並強化長輩可讀性、颱風備援與行動裝置操作。
+  -->
+  <main class="shell">
+    <aside class="planner" aria-label="沖繩每日行程">
+      <header class="masthead">
+        <div class="trip-mark">
+          <span class="island-mark">OKINAWA FAMILY DRIVE</span>
+          <span class="party">2 位長輩 · 3 位成人 · 1 位 4 歲幼童</span>
+        </div>
+        <h1>慢慢走，剛剛好。</h1>
+        <div class="date">2026.09.01（二）— 09.05（六）｜北部 2 晚＋那霸 2 晚</div>
+        <div class="pace"><strong>2</strong><span>每天最多兩個主要活動；把體力與颱風變化都留進行程裡。</span></div>
+      </header>
+
+      <nav class="day-tabs" id="dayTabs" aria-label="選擇日期"></nav>
+
+      <section class="schedule" aria-live="polite">
+        <div class="day-intro">
+          <div>
+            <h2 id="dayTitle"></h2>
+            <p id="daySummary"></p>
+          </div>
+          <span class="weather-tag" id="weatherTag"></span>
+        </div>
+        <div class="timeline" id="timeline"></div>
+        <div class="fallback" id="fallback"></div>
+      </section>
+    </aside>
+
+    <section class="map-wrap" aria-label="沖繩行程地圖">
+      <div id="map"></div>
+      <div class="map-tools">
+        <button class="map-tool" id="fitDay" type="button">看當日路線</button>
+        <button class="map-tool" id="fitAll" type="button">看完整行程</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const days = {
+      1: {
+        date: "9/1", weekday: "二", color: "#de6d55",
+        title: "抵達、玉泉洞、北上",
+        summary: "第一天只排一個正式景點；若落地或取車延誤，直接放棄玉泉洞。",
+        tag: "可直接縮短",
+        fallback: "<b>颱風／延誤方案</b><p>玉泉洞改排 9/4 機動時段；若已發布暴風警報，不開車北上，依官方指示留在安全室內。</p>"
+      },
+      2: {
+        date: "9/2", weekday: "三", color: "#e89b2d",
+        title: "透明獨木舟與古宇利",
+        summary: "把最吃海況的活動排在早晨；午餐後完全留白，長輩與孩子都能休息。",
+        tag: "海況優先",
+        fallback: "<b>海況不佳方案</b><p>獨木舟取消通常可免取消費；改搭部瀨名玻璃底船，或回飯店休息。不要硬塞進水族館。</p>"
+      },
+      3: {
+        date: "9/3", weekday: "四", color: "#3b966c",
+        title: "美麗海、AEON、那霸",
+        summary: "上午看水族館，午後用 AEON 當南下途中的午餐、冷氣與購物休息站。",
+        tag: "室內緩衝",
+        fallback: "<b>下雨方案</b><p>美麗海與 AEON 都適合雨天；若風雨已影響道路安全，延後退房並取消跨區移動。</p>"
+      },
+      4: {
+        date: "9/4", weekday: "五", color: "#397fba",
+        title: "達磨寺與機動日",
+        summary: "只鎖定短停達磨寺與晚餐，其餘時間專門承接前三天被天候打亂的項目。",
+        tag: "核心備援日",
+        fallback: "<b>無需補行程時</b><p>中午後可去國際通、牧志市場或回飯店。北谷煙火不特地追，避免週五車潮增加全家疲勞。</p>"
+      },
+      5: {
+        date: "9/5", weekday: "六", color: "#7b65a8",
+        title: "分批搭機、近機場活動",
+        summary: "先送妻姊搭 10:10 班機；其他五人只在機場周邊活動，保留充足還車時間。",
+        tag: "17:00 末班接駁",
+        fallback: "<b>壞天氣方案</b><p>瀨長島改 DMM Kariyushi 水族館；16:30 前還車，務必銜接 Cordio 17:00 最後一班機場接駁。</p>"
+      }
+    };
+
+    const photos = {
+      airport: {
+        src: "assets/naha-airport.jpg",
+        alt: "那霸機場航廈與停機坪客機停靠景觀",
+        page: "https://commons.wikimedia.org/wiki/File:140902_Naha_Airport_Naha_Okinawa_pref_Japan01bs50.jpg",
+        credit: "663highland · CC BY 2.5"
+      },
+      tomiton: {
+        src: "assets/tomiton.jpg",
+        alt: "豐見城市豐崎 TOMITON 購物中心建築外觀",
+        page: "https://commons.wikimedia.org/wiki/File:Tomiton_(Tomigusuku,_Okinawa).jpg",
+        credit: "Mk2010 · CC BY-SA 3.0"
+      },
+      gyokusendo: {
+        src: "assets/gyokusendo.jpg",
+        alt: "玉泉洞內壯觀的鐘乳石柱與地下步道",
+        page: "https://commons.wikimedia.org/wiki/File:Gyokusendo-1.jpg",
+        credit: "地圖帳 · Public Domain"
+      },
+      bise: {
+        src: "assets/bise-fukugi.jpg",
+        alt: "備瀨福木林道充滿綠意的林蔭小徑",
+        page: "https://commons.wikimedia.org/wiki/File:Bise_Fukugi_Tree_Road_01.JPG",
+        credit: "Kugel · CC BY-SA 4.0"
+      },
+      biseCoast: {
+        src: "assets/bise-coast.jpg",
+        alt: "備瀨崎清澈湛藍的海灣與海岸",
+        page: "https://commons.wikimedia.org/wiki/File:Bise,_Motobu,_Kunigami_District,_Okinawa_Prefecture_905-0207,_Japan_-_panoramio_(1).jpg",
+        credit: "takato fushimi · CC BY 3.0"
+      },
+      kouri: {
+        src: "assets/kouri-bridge.jpg",
+        alt: "橫跨翡翠綠海面的古宇利大橋",
+        page: "https://commons.wikimedia.org/wiki/File:Nago_Okinawa_Kouri-Bridge-01.jpg",
+        credit: "Cccefalon · CC BY-SA 4.0"
+      },
+      churaumi: {
+        src: "assets/churaumi.jpg",
+        alt: "美麗海水族館黑潮之海水槽中的鯨鯊與魚群",
+        page: "https://commons.wikimedia.org/wiki/File:Okinawa_Aquarium.jpg",
+        credit: "Jordy Meow · CC BY-SA 3.0"
+      },
+      aeon: {
+        src: "assets/aeon-rycom.jpg",
+        alt: "AEON MALL Okinawa Rycom 主要入口外觀",
+        page: "https://commons.wikimedia.org/wiki/File:AEON_Mall_Okinawa_Rycom_01.JPG",
+        credit: "Kugel · CC BY-SA 4.0"
+      },
+      naha: {
+        src: "assets/kokusai-dori.jpg",
+        alt: "那霸市區熱鬧的國際通街道與商店",
+        page: "https://commons.wikimedia.org/wiki/File:Kokusai_Dori_01.JPG",
+        credit: "Abasaa · Public Domain"
+      },
+      daruma: {
+        src: "assets/daruma-dera.jpg",
+        alt: "那霸西来院達磨寺寧靜的寺院本堂",
+        page: "https://commons.wikimedia.org/wiki/File:Sairai-in,_Naha.jpg",
+        credit: "Kugel · CC BY-SA 4.0"
+      },
+      makishi: {
+        src: "assets/makishi-market.jpg",
+        alt: "第一牧志公設市場攤位上的沖繩特色海產",
+        page: "https://commons.wikimedia.org/wiki/File:Fish_of_Okinawa_sold_in_Makishi_First_Public_Market.JPG",
+        credit: "Abasaa · Public Domain"
+      },
+      yakiniku: {
+        src: "assets/yakiniku.jpg",
+        alt: "烤網上滋滋作響的日式燒肉",
+        page: "https://commons.wikimedia.org/wiki/File:Yakiniku_002.jpg",
+        credit: "Jonathan Lin · CC BY-SA 2.0"
+      },
+      umikaji: {
+        src: "assets/umikaji-terrace.jpg",
+        alt: "瀨長島 Umikaji Terrace 純白建築與海景露台",
+        page: "https://commons.wikimedia.org/wiki/File:Umikaji_Terrace_Senagajima.jpg",
+        credit: "Kugel · CC BY-SA 4.0"
+      },
+      ashibinaa: {
+        src: "assets/ashibinaa.jpg",
+        alt: "沖繩 Outlet Mall Ashibinaa 的露天購物街區",
+        page: "https://commons.wikimedia.org/wiki/File:Okinawa_Outlet_Mall_Ashibinaa06n4592.jpg",
+        credit: "663highland · CC BY 2.5"
+      }
+    };
+
+    const stops = [
+      { day: 1, time: "09:15", name: "✈️ 抵達那霸機場", type: "交通", lat: 26.2065, lng: 127.6463, note: "計程車前往 Cordio；保留收據，最多兩台可依方案退費。", query: "那覇空港", photo: "airport" },
+      { day: 1, time: "11:00", name: "🚐 Cordio 取 Alphard", type: "租車", lat: 26.1589, lng: 127.6650, note: "TOMITON 1F。確認 NOC、兒童座椅與實際還車時間。", query: "コルディオレンタカー 那覇空港店", photo: "tomiton" },
+      { day: 1, time: "12:00", name: "🕳️ 玉泉洞 Okinawa World", type: "★ 必去", lat: 26.1400, lng: 127.7494, note: "取車順利才去；最後入場約 16:00。延誤就移到 9/4。", query: "おきなわワールド 玉泉洞", photo: "gyokusendo" },
+      { day: 1, time: "15:30", name: "🛣️ 北上至本部／備瀨", type: "移動", lat: 26.7008, lng: 127.8792, note: "走高速約 2 小時 15 分；入住同一飯店兩晚，減少搬行李。", query: "備瀬のフクギ並木", photo: "bise" },
+
+      { day: 2, time: "09:00", name: "🛶 備瀨透明獨木舟", type: "★ 必去", lat: 26.7046, lng: 127.8811, note: "首選 Kayak Fuku。需確認 65+ 長輩、六人三艇與 4 歲兒童安排。", query: "備瀬カヤックfuku", photo: "biseCoast" },
+      { day: 2, time: "11:00", name: "🌉 古宇利大橋", type: "順路", lat: 26.6847, lng: 128.0180, note: "跨海景觀路線；長輩若累可留在車上看海。", query: "古宇利大橋", photo: "kouri" },
+      { day: 2, time: "11:30", name: "🦐 古宇利シュリンプ", type: "★ 蝦蝦飯", lat: 26.6985, lng: 128.0216, note: "古宇利店 11:00 開門，可能提早售完；有兒童椅與停車場。", query: "KOURI SHRIMP 古宇利島", photo: "kouri" },
+      { day: 2, time: "14:00", name: "💤 回飯店休息", type: "留白", lat: 26.7008, lng: 127.8792, note: "下午不再排景點；午睡、玩水，替隔天水族館保留體力。", query: "備瀬のフクギ並木", photo: "bise" },
+
+      { day: 3, time: "09:00", name: "🐋 美麗海水族館", type: "★ 必去", lat: 26.6943, lng: 127.8779, note: "早場人較少；停 P7 最近。4 歲免費，可借推車與輪椅。", query: "沖縄美ら海水族館 P7", photo: "churaumi" },
+      { day: 3, time: "14:00", name: "🛍️ AEON MALL Okinawa Rycom", type: "★ 休息站", lat: 26.3148, lng: 127.7950, note: "午餐、冷氣休息、採買一次完成，不另算重體力景點。", query: "イオンモール沖縄ライカム", photo: "aeon" },
+      { day: 3, time: "17:15", name: "🏨 入住那霸", type: "住宿", lat: 26.2190, lng: 127.6868, note: "連住兩晚；選有停車位、方便早上送機的區域。", query: "那覇市 おもろまち", photo: "naha" },
+      { day: 3, time: "19:00", name: "🐖 Ocean BOO! 阿古豬火鍋", type: "★ 晚餐", lat: 26.2167, lng: 127.6896, note: "預約六人個室並確認兒童椅；餐廳無自有停車場。照片為那霸市區代表景觀。", query: "Ocean BOO 那覇店", photo: "naha" },
+
+      { day: 4, time: "09:30", name: "🙏 西来院 達磨寺", type: "★ 必去", lat: 26.2161, lng: 127.7188, note: "免費、停車方便，停留 30–45 分鐘即可。", query: "西来院 達磨寺 那覇", photo: "daruma" },
+      { day: 4, time: "12:00", name: "🛟 颱風／延誤機動時段", type: "機動", lat: 26.2171, lng: 127.6910, note: "優先補玉泉洞或其他取消項目；無事則國際通、牧志市場或休息。", query: "国際通り 那覇", photo: "makishi" },
+      { day: 4, time: "18:30", name: "🥩 敘敘苑 おもろまち店", type: "★ 晚餐", lat: 26.2278, lng: 127.6977, note: "預約六人座敷個室；個室費約加 5%。電話 098-860-0089。", query: "叙々苑 沖縄おもろまち店", photo: "yakiniku" },
+
+      { day: 5, time: "07:45", name: "✈️ 送妻姊至那霸機場", type: "送機", lat: 26.2065, lng: 127.6463, note: "妻子的姊姊搭 10:10 班機；其餘五人預計 20:20 起飛。", query: "那覇空港", photo: "airport" },
+      { day: 5, time: "11:00", name: "🌊 瀨長島 Umikaji Terrace", type: "午餐", lat: 26.1746, lng: 127.6452, note: "看飛機、簡單午餐；風雨大時改 DMM 室內水族館。", query: "瀬長島ウミカジテラス", photo: "umikaji" },
+      { day: 5, time: "14:00", name: "🛍️ Ashibinaa Outlet", type: "採買", lat: 26.1572, lng: 127.6562, note: "最後補貨，離還車點近；不要為購物壓縮還車緩衝。", query: "沖縄アウトレットモールあしびなー", photo: "ashibinaa" },
+      { day: 5, time: "16:30", name: "🚐 還車、搭接駁回機場", type: "重要", lat: 26.1589, lng: 127.6650, note: "Cordio 最後接駁 17:00；行前再向店家確認座位與還車流程。", query: "コルディオレンタカー 那覇空港店", photo: "tomiton" }
+    ];
+
+    const map = L.map("map", { zoomControl: true, minZoom: 8 }).setView([26.44, 127.82], 9);
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+      attribution: "© OpenStreetMap © CARTO",
+      maxZoom: 19
+    }).addTo(map);
+
+    const dayLayers = {};
+    const markersByStop = new Map();
+
+    Object.keys(days).forEach(dayNumber => {
+      const day = Number(dayNumber);
+      const layer = L.layerGroup();
+      const dayStops = stops.filter(stop => stop.day === day);
+      const points = dayStops.map(stop => [stop.lat, stop.lng]);
+
+      L.polyline(points, {
+        color: days[day].color,
+        weight: 4,
+        opacity: .72,
+        dashArray: "2 10",
+        lineCap: "round"
+      }).addTo(layer);
+
+      dayStops.forEach((stop, index) => {
+        const photo = photos[stop.photo];
+        const icon = L.divIcon({
+          className: "",
+          html: `<div class="route-pin" style="--pin-color:${days[day].color}"><span>${index + 1}</span></div>`,
+          iconSize: [29, 29],
+          iconAnchor: [14, 27],
+          popupAnchor: [0, -25]
+        });
+        const marker = L.marker([stop.lat, stop.lng], { icon }).addTo(layer);
+        marker.bindPopup(`
+          <article class="popup" style="--popup-color:${days[day].color}">
+            <a href="${photo.page}" target="_blank" rel="noopener"><img class="popup-photo" src="${photo.src}" alt="${photo.alt}"></a>
+            <span class="popup-time">${days[day].date}（${days[day].weekday}） · ${stop.time} · ${stop.type}</span>
+            <h3>${stop.name}</h3>
+            <p>${stop.note}</p>
+            <div class="popup-links">
+              <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(stop.query)}" target="_blank" rel="noopener">Google 地圖 →</a>
+              <a class="credit" href="${photo.page}" target="_blank" rel="noopener">${photo.credit}</a>
+            </div>
+          </article>
+        `);
+        markersByStop.set(stop, marker);
+      });
+      dayLayers[day] = layer;
+    });
+
+    const allBounds = L.latLngBounds(stops.map(stop => [stop.lat, stop.lng]));
+    let activeDay = 1;
+
+    function fitStops(day) {
+      const points = stops.filter(stop => !day || stop.day === day).map(stop => [stop.lat, stop.lng]);
+      if (points.length === 1) map.setView(points[0], 14);
+      else map.fitBounds(L.latLngBounds(points), { padding: [44, 44], maxZoom: 12 });
+    }
+
+    function selectDay(day, shouldFit = true) {
+      activeDay = day;
+      Object.entries(dayLayers).forEach(([number, layer]) => {
+        if (Number(number) === day) layer.addTo(map);
+        else map.removeLayer(layer);
+      });
+
+      document.querySelectorAll(".day-tab").forEach(button => {
+        const selected = Number(button.dataset.day) === day;
+        button.classList.toggle("active", selected);
+        button.setAttribute("aria-selected", String(selected));
+      });
+
+      const info = days[day];
+      document.getElementById("dayTitle").textContent = info.title;
+      document.getElementById("daySummary").textContent = info.summary;
+      document.getElementById("weatherTag").textContent = info.tag;
+      document.getElementById("fallback").innerHTML = info.fallback;
+
+      const timeline = document.getElementById("timeline");
+      timeline.innerHTML = "";
+      stops.filter(stop => stop.day === day).forEach(stop => {
+        const photo = photos[stop.photo];
+        const item = document.createElement("div");
+        item.className = "stop";
+        item.tabIndex = 0;
+        item.style.setProperty("--day-color", info.color);
+        item.innerHTML = `
+          <time class="stop-time">${stop.time}</time>
+          <span class="stop-pin" aria-hidden="true"></span>
+          <div class="stop-main">
+            <div class="stop-copy">
+              <h3 class="stop-title"><span>${stop.name}</span><em>${stop.type}</em></h3>
+              <p class="stop-note">${stop.note}</p>
+            </div>
+            <img class="stop-thumb" src="${photo.src}" alt="${photo.alt}" loading="lazy">
+          </div>
+        `;
+        const focusStop = () => {
+          map.setView([stop.lat, stop.lng], 14, { animate: true });
+          markersByStop.get(stop).openPopup();
+          if (window.innerWidth <= 760) document.getElementById("map").scrollIntoView({ behavior: "smooth" });
+        };
+        item.addEventListener("click", focusStop);
+        item.addEventListener("keydown", event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            focusStop();
+          }
+        });
+        timeline.appendChild(item);
+      });
+
+      if (shouldFit) fitStops(day);
+    }
+
+    const tabs = document.getElementById("dayTabs");
+    Object.entries(days).forEach(([number, day]) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "day-tab";
+      button.dataset.day = number;
+      button.style.setProperty("--day-color", day.color);
+      button.setAttribute("role", "tab");
+      button.innerHTML = `${day.weekday}<span>${day.date}</span>`;
+      button.addEventListener("click", () => selectDay(Number(number)));
+      tabs.appendChild(button);
+    });
+
+    document.getElementById("fitDay").addEventListener("click", () => fitStops(activeDay));
+    document.getElementById("fitAll").addEventListener("click", () => {
+      Object.values(dayLayers).forEach(layer => layer.addTo(map));
+      map.fitBounds(allBounds, { padding: [48, 48] });
+    });
+
+    selectDay(1);
+    window.addEventListener("load", () => setTimeout(() => map.invalidateSize(), 80));
+  </script>
+</body>
+</html>
