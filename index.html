@@ -45,31 +45,29 @@
     .shell {
       display: grid;
       grid-template-columns: minmax(340px, 390px) 1fr;
+      grid-template-rows: auto auto minmax(0, 1fr);
       width: 100%;
       height: 100dvh;
+      background:
+        radial-gradient(circle at 35% 2%, rgba(240, 164, 60, .19), transparent 18%),
+        var(--paper);
     }
 
     .planner {
-      position: relative;
-      z-index: 500;
-      display: flex;
-      min-width: 0;
-      min-height: 0;
-      flex-direction: column;
-      background:
-        radial-gradient(circle at 93% 2%, rgba(240, 164, 60, .19), transparent 25%),
-        var(--paper);
-      border-right: 1px solid rgba(16, 45, 50, .15);
-      box-shadow: 10px 0 35px rgba(16, 45, 50, .10);
+      display: contents;
     }
 
     .masthead {
-      flex: none;
+      position: relative;
+      z-index: 500;
+      grid-column: 1;
+      grid-row: 1;
       padding: 24px 24px 18px;
       color: #f8f3e8;
       background:
         linear-gradient(145deg, rgba(255, 255, 255, .07), transparent 44%),
         var(--sea-dark);
+      border-right: 1px solid rgba(16, 45, 50, .15);
     }
     .trip-mark {
       display: flex;
@@ -141,10 +139,14 @@
     }
 
     .day-tabs {
+      position: relative;
+      z-index: 500;
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      flex: none;
+      grid-column: 1;
+      grid-row: 2;
       border-bottom: 1px solid var(--line);
+      border-right: 1px solid rgba(16, 45, 50, .15);
       background: #fffcf4;
     }
     .day-tab {
@@ -184,11 +186,17 @@
     }
 
     .schedule {
+      position: relative;
+      z-index: 500;
+      grid-column: 1;
+      grid-row: 3;
       min-height: 0;
-      flex: 1;
       overflow-y: auto;
       overscroll-behavior: contain;
       padding: 20px 20px 34px;
+      background: var(--paper);
+      border-right: 1px solid rgba(16, 45, 50, .15);
+      box-shadow: 10px 0 35px rgba(16, 45, 50, .10);
       scrollbar-color: rgba(29, 104, 114, .35) transparent;
     }
     .day-intro {
@@ -325,7 +333,13 @@
       line-height: 1.65;
     }
 
-    .map-wrap { position: relative; min-width: 0; min-height: 0; }
+    .map-wrap {
+      position: relative;
+      grid-column: 2;
+      grid-row: 1 / -1;
+      min-width: 0;
+      min-height: 0;
+    }
     #map { width: 100%; height: 100%; background: #d9e7e3; }
     .map-tools {
       position: absolute;
@@ -429,31 +443,51 @@
     .leaflet-control-attribution { color: var(--muted); background: rgba(255, 253, 247, .8) !important; font-size: 9px; }
 
     @media (max-width: 760px) {
-      body { overflow: auto; }
+      body { overflow-x: hidden; overflow-y: auto; }
       .shell {
-        display: flex;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto auto minmax(340px, 42dvh) auto;
         height: auto;
         min-height: 100dvh;
-        flex-direction: column;
+      }
+      .masthead {
+        grid-column: 1;
+        grid-row: 1;
+        padding: 18px 19px 16px;
+        border-right: 0;
+      }
+      .day-tabs {
+        position: sticky;
+        top: 0;
+        z-index: 700;
+        grid-column: 1;
+        grid-row: 2;
+        min-height: 54px;
+        border-right: 0;
+        box-shadow: 0 5px 15px rgba(16, 45, 50, .10);
       }
       .map-wrap {
-        order: 1;
-        height: 48dvh;
+        grid-column: 1;
+        grid-row: 3;
+        height: 42dvh;
         min-height: 340px;
+        scroll-margin-top: 57px;
       }
-      .planner {
-        order: 2;
-        min-height: 52dvh;
+      .schedule {
+        grid-column: 1;
+        grid-row: 4;
+        min-height: 0;
+        overflow: visible;
+        padding: 20px 18px calc(32px + env(safe-area-inset-bottom));
         border-top: 1px solid rgba(16, 45, 50, .15);
         border-right: 0;
-        box-shadow: 0 -12px 35px rgba(16, 45, 50, .12);
+        box-shadow: 0 -7px 22px rgba(16, 45, 50, .10);
       }
-      .masthead { padding: 19px 20px 17px; }
       .trip-mark { margin-bottom: 13px; }
       h1 { max-width: none; font-size: 32px; }
       .date { margin-top: 8px; }
       .pace { margin-top: 13px; padding-top: 12px; }
-      .schedule { overflow: visible; padding: 18px 18px calc(32px + env(safe-area-inset-bottom)); }
       .map-tools { top: 12px; right: 12px; }
     }
 
