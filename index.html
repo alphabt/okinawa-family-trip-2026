@@ -270,7 +270,8 @@
     #map .leaflet-overlay-pane path {
       filter:
         drop-shadow(0 0 1px rgba(255, 255, 255, .98))
-        drop-shadow(0 0 3px rgba(255, 255, 255, .92));
+        drop-shadow(0 0 3px rgba(255, 255, 255, .92))
+        drop-shadow(0 2px 2px rgba(7, 73, 86, .28));
     }
     .map-heading {
       position: absolute;
@@ -366,7 +367,7 @@
       background: var(--day-color);
     }
     .day-button:hover { background: color-mix(in srgb, var(--day-color) 9%, white); }
-    .day-button.active { color: #fff; background: var(--day-color); }
+    .day-button.active { color: #021a20; background: var(--day-color); }
     .day-topline {
       display: flex;
       align-items: center;
@@ -385,7 +386,7 @@
       border-radius: 50%;
       font-size: 12px;
     }
-    .day-button.active .day-number { color: var(--day-color); background: #fff; }
+    .day-button.active .day-number { color: #021a20; background: rgba(255, 255, 255, .82); }
     .day-button strong {
       display: block;
       overflow: hidden;
@@ -407,7 +408,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-    .day-button.active small { color: rgba(255, 255, 255, .84); }
+    .day-button.active small { color: rgba(2, 26, 32, .78); }
 
     .detail-panel {
       display: none;
@@ -441,7 +442,10 @@
       gap: 16px;
     }
     .detail-day {
-      color: var(--day-color);
+      padding: 5px 8px;
+      color: var(--ocean-deep);
+      background: color-mix(in srgb, var(--day-color) 20%, white);
+      border-radius: 999px;
       font-size: 13px;
       font-weight: 900;
       letter-spacing: .06em;
@@ -538,10 +542,13 @@
     .stop-type {
       display: inline-block;
       margin-left: 7px;
-      color: var(--day-color);
+      padding: 2px 6px;
+      color: var(--ocean-deep);
+      background: color-mix(in srgb, var(--day-color) 20%, white);
+      border-radius: 999px;
       font-size: 12px;
       font-weight: 850;
-      vertical-align: 2px;
+      vertical-align: 1px;
     }
     .stop-note {
       max-width: 50ch;
@@ -616,7 +623,7 @@
       width: 34px;
       height: 34px;
       place-items: center;
-      color: #fff;
+      color: #021a20;
       background: var(--pin-color);
       border: 3px solid #fff;
       border-radius: 50%;
@@ -644,8 +651,12 @@
     }
     .popup-time {
       display: block;
+      width: fit-content;
       margin-bottom: 5px;
-      color: var(--popup-color);
+      padding: 4px 7px;
+      color: var(--ocean-deep);
+      background: color-mix(in srgb, var(--popup-color) 20%, white);
+      border-radius: 999px;
       font-size: 12px;
       font-weight: 900;
     }
@@ -775,7 +786,7 @@
       }
       .schedule-list::before { left: 60px; }
       .stop-photo { width: 72px; height: 58px; border-radius: 11px; }
-      .stop-title { font-size: 13px; }
+      .stop-title { font-size: 16px; }
       .stop-type { display: block; margin: 2px 0 0; }
     }
 
