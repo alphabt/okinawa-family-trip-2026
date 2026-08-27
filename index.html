@@ -1089,9 +1089,9 @@
     });
     map.getContainer().removeAttribute("tabindex");
     L.control.zoom({ position: "topright" }).addTo(map);
-    const baseLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}", {
-      attribution: "Tiles © Esri — Esri, HERE, Garmin, © OpenStreetMap contributors, GIS user community",
-      maxNativeZoom: 16,
+    const baseLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}", {
+      attribution: "Tiles © Esri — Esri, HERE, Garmin, USGS, METI, © OpenStreetMap contributors, GIS user community",
+      maxNativeZoom: 18,
       maxZoom: 18
     });
     let tileErrorCount = 0;

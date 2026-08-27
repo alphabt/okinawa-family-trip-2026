@@ -14,4 +14,4 @@
 
 ## 技術
 
-單頁靜態網站，使用專案內附的 [Leaflet 1.9.4](https://leafletjs.com/) 與 Esri Light Gray Canvas 圖磚。簡化底圖只保留方向判讀所需的海岸線、主要道路與地名，讓行程標記和路線成為視覺主角。Leaflet 授權文件位於 `vendor/leaflet/LICENSE`；即使圖磚暫時無法載入，行程時間軸與 Google 地圖導航仍可使用。
+單頁靜態網站，使用專案內附的 [Leaflet 1.9.4](https://leafletjs.com/) 與經低彩度處理的 Esri World Street Map 圖磚。底圖保留海岸、地形、道路與地名作為旅行判讀線索，但不顯示干擾行程的航路資訊。Leaflet 授權文件位於 `vendor/leaflet/LICENSE`；即使圖磚暫時無法載入，行程時間軸與 Google 地圖導航仍可使用。
