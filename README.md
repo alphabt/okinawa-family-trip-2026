@@ -14,4 +14,4 @@
 
 ## 技術
 
-單頁靜態網站，使用專案內附的 [Leaflet 1.9.4](https://leafletjs.com/) 與 [CARTO](https://carto.com/) 地圖圖磚。Leaflet 授權文件位於 `vendor/leaflet/LICENSE`；即使圖磚暫時無法載入，行程時間軸與 Google 地圖導航仍可使用。
+單頁靜態網站，使用專案內附的 [Leaflet 1.9.4](https://leafletjs.com/) 與 [OpenStreetMap](https://www.openstreetmap.org/) 標準圖磚。Leaflet 授權文件位於 `vendor/leaflet/LICENSE`；即使圖磚暫時無法載入，行程時間軸與 Google 地圖導航仍可使用。

@@ -485,6 +485,14 @@
       line-height: 1.7;
     }
     .detail-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 21px; }
+    .timing-guide {
+      max-width: 58ch;
+      margin: 13px 0 0;
+      color: var(--ocean);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.55;
+    }
     .secondary-action {
       display: inline-flex;
       min-height: 46px;
@@ -567,6 +575,20 @@
       font-size: 14px;
       line-height: 1.6;
     }
+    .stop-logistics,
+    .popup-logistics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+      color: var(--ocean);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+    .stop-logistics { margin: 6px 0 0; }
+    .popup-logistics { margin: -5px 0 10px; font-size: 12px; }
+    .stop-logistics strong,
+    .popup-logistics strong { color: var(--ink); font-weight: 900; }
     .stop-nav {
       display: inline-flex;
       min-height: 44px;
@@ -672,6 +694,12 @@
     }
     .popup h3 { margin: 0; font-size: 17px; line-height: 1.35; }
     .popup p { margin: 7px 0 12px; color: var(--muted); font-size: 14px; line-height: 1.55; }
+    .popup .popup-logistics {
+      margin: -5px 0 10px;
+      color: var(--ocean);
+      font-size: 12px;
+    }
+    .popup .popup-logistics strong { color: var(--ink); }
     .popup-links { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     .popup a { color: var(--ocean); font-size: 13px; font-weight: 850; text-decoration: none; }
     .popup .credit { color: var(--muted); font-size: 11px; font-weight: 600; text-align: right; }
@@ -935,6 +963,7 @@
           <a class="primary-action" id="firstNav" href="#" target="_blank" rel="noopener">開啟第一站導航 <span aria-hidden="true">↗</span></a>
           <button class="secondary-action" id="showDayMap" type="button">在地圖看當日路線</button>
         </div>
+        <p class="timing-guide">時間為建議開始時間；車程已加入一般交通緩衝，尖峰、下雨或幼童臨時休息時再加 20–30 分鐘。</p>
       </div>
       <ol class="schedule-list" id="scheduleList"></ol>
       <aside class="fallback" id="fallback"></aside>
@@ -949,37 +978,37 @@
       1: {
         date: "9/1", weekday: "二", color: "#f26f5b",
         title: "抵達、玉泉洞、北上", short: "玉泉洞 → Mahaina",
-        summary: "第一天只排一個正式景點；若落地或取車延誤，直接放棄玉泉洞。",
-        tag: "可直接縮短",
-        fallback: "<strong>颱風／延誤方案</strong><p>玉泉洞改排 9/4 機動時段；若已發布暴風警報，不開車北上，依官方指示留在安全室內。</p>"
+        summary: "兩班機只差五分鐘抵達；集合取車、簡單午餐後只去玉泉洞，再保留近兩小時北上。",
+        tag: "班機待確認",
+        fallback: "<strong>延誤切點</strong><p>13:45 還沒抵達玉泉洞就直接北上；玉泉洞移到 9/4 機動日。若有暴風警報，依官方指示留在安全室內。</p>"
       },
       2: {
         date: "9/2", weekday: "三", color: "#e59b24",
-        title: "透明獨木舟與古宇利", short: "備瀨 → 古宇利",
-        summary: "把最吃海況的活動排在早晨；午餐後完全留白，長輩與孩子都能休息。",
-        tag: "海況優先",
-        fallback: "<strong>海況不佳方案</strong><p>獨木舟取消通常可免取消費；改搭部瀨名玻璃底船，或回飯店休息。不要硬塞進水族館。</p>"
+        title: "透明獨木舟、古宇利、大家", short: "備瀨 → 古宇利 → 大家",
+        summary: "早上獨木舟，中午把古宇利大橋、蝦蝦飯與 THE SINMAY 串成一線；下午回飯店休息兩小時以上，再去大家晚餐。",
+        tag: "海況／年齡確認",
+        fallback: "<strong>海況或年齡不符方案</strong><p>獨木舟只保留已獲業者書面確認的私人方案；取消時延後出發，照走古宇利與大家。海洋塔只在全員精神良好時臨時加，不壓縮休息。</p>"
       },
       3: {
         date: "9/3", weekday: "四", color: "#14a99a",
-        title: "美麗海、AEON、那霸", short: "美麗海 → Comfort",
-        summary: "上午看水族館，午後用 AEON 當南下途中的午餐、冷氣與購物休息站。",
-        tag: "室內緩衝",
-        fallback: "<strong>下雨方案</strong><p>美麗海與 AEON 都適合雨天；若風雨已影響道路安全，延後退房並取消跨區移動。</p>"
+        title: "美麗海、便便博物館、那霸", short: "美麗海 → AEON → Comfort",
+        summary: "退房後趁早看水族館；午餐後南下，把便便博物館、購物與長輩休息全部留在同一座 AEON。",
+        tag: "全程有室內",
+        fallback: "<strong>雨天可照走</strong><p>美麗海與 AEON 都以室內為主；若風雨已影響道路安全，延後離開北部並取消跨區移動，不追行程。</p>"
       },
       4: {
         date: "9/4", weekday: "五", color: "#55a8dd",
-        title: "達磨寺與機動日", short: "達磨寺 → 機動",
-        summary: "只鎖定短停達磨寺與晚餐，其餘時間專門承接前三天被天候打亂的項目。",
-        tag: "核心備援日",
-        fallback: "<strong>無需補行程時</strong><p>中午後可去國際通、牧志市場或回飯店。北谷煙火不特地追，避免週五車潮增加全家疲勞。</p>"
+        title: "國際通、敘敘苑、機動日", short: "國際通 → 敘敘苑 → 達磨寺",
+        summary: "預設只排步行購物、敘敘苑午餐與短停達磨寺；15:00 後完整留給午睡、颱風調度或補前幾天行程。",
+        tag: "可整日改排",
+        fallback: "<strong>機動日規則</strong><p>若前三天有必去項目取消，國際通與達磨寺都可直接刪除，整日改排；若無需補行程，下午回飯店休息，晚餐步行解決。</p>"
       },
       5: {
         date: "9/5", weekday: "六", color: "#8c72c4",
-        title: "分批搭機、近機場活動", short: "送機 → 瀨長島",
-        summary: "先送妻姊搭 10:10 班機；其他五人只在機場周邊活動，保留充足還車時間。",
-        tag: "17:00 末班接駁",
-        fallback: "<strong>壞天氣方案</strong><p>瀨長島改 DMM Kariyushi 水族館；16:30 前還車，務必銜接 Cordio 17:00 最後一班機場接駁。</p>"
+        title: "分批搭機、瀨長島、還車", short: "IT231 → 瀨長島 → BR185",
+        summary: "妻姊清晨自行搭計程車去機場；其他五人退房後只在機場周邊活動，15:00 還車並預留充足候機時間。",
+        tag: "班機待確認",
+        fallback: "<strong>壞天氣／塞車方案</strong><p>取消瀨長島，只留 Ashibinaa 室內採買；15:00 抵達 Cordio、目標搭 16:00 接駁，絕不壓到 17:00 最後一班。</p>"
       }
     };
 
@@ -1003,26 +1032,43 @@
     };
 
     const stops = [
-      { day: 1, time: "09:15", name: "✈️ 抵達那霸機場", type: "交通", lat: 26.2065, lng: 127.6463, note: "計程車前往 Cordio；保留收據，最多兩台可依方案退費。", query: "那覇空港", photo: "airport" },
-      { day: 1, time: "11:00", name: "🚐 Cordio 取 Alphard", type: "租車", lat: 26.1589, lng: 127.6650, note: "TOMITON 1F。確認 NOC、兒童座椅與實際還車時間。", query: "コルディオレンタカー 那覇空港店", photo: "tomiton" },
-      { day: 1, time: "12:00", name: "🕳️ 玉泉洞 Okinawa World", type: "★ 必去", lat: 26.1400, lng: 127.7494, note: "取車順利才去；最後入場約 16:00。延誤就移到 9/4。", query: "おきなわワールド 玉泉洞", photo: "gyokusendo" },
-      { day: 1, time: "15:30", name: "🏨 入住 Hotel Mahaina", type: "住宿", lat: 26.6830635, lng: 127.8822316, note: "走高速北上約 2 小時 15 分；9/1–9/3 連住兩晚，減少搬行李。", query: "Hotel Mahaina Wellness Resort Okinawa", photo: "bise" },
-      { day: 2, time: "09:00", name: "🛶 備瀨透明獨木舟", type: "★ 必去", lat: 26.7046, lng: 127.8811, note: "首選 Kayak Fuku。需確認 65+ 長輩、六人三艇與 4 歲兒童安排。", query: "備瀬カヤックfuku", photo: "biseCoast" },
-      { day: 2, time: "11:00", name: "🌉 古宇利大橋", type: "順路", lat: 26.6847, lng: 128.0180, note: "跨海景觀路線；長輩若累可留在車上看海。", query: "古宇利大橋", photo: "kouri" },
-      { day: 2, time: "11:30", name: "🦐 古宇利シュリンプ", type: "★ 蝦蝦飯", lat: 26.6985, lng: 128.0216, note: "古宇利店 11:00 開門，可能提早售完；有兒童椅與停車場。照片為蒜香蝦飯代表圖片，非店內實景。", query: "KOURI SHRIMP 古宇利島", photo: "shrimp" },
-      { day: 2, time: "14:00", name: "💤 回 Hotel Mahaina 休息", type: "留白", lat: 26.6830635, lng: 127.8822316, note: "下午不再排景點；午睡、玩水，替隔天水族館保留體力。", query: "Hotel Mahaina Wellness Resort Okinawa", photo: "bise" },
-      { day: 3, time: "09:00", name: "🐋 美麗海水族館", type: "★ 必去", lat: 26.6943, lng: 127.8779, note: "早場人較少；停 P7 最近。4 歲免費，可借推車與輪椅。", query: "沖縄美ら海水族館 P7", photo: "churaumi" },
-      { day: 3, time: "14:00", name: "🛍️ AEON MALL Okinawa Rycom", type: "★ 休息站", lat: 26.3148, lng: 127.7950, note: "午餐、冷氣休息、採買一次完成，不另算重體力景點。", query: "イオンモール沖縄ライカム", photo: "aeon" },
-      { day: 3, time: "17:15", name: "🏨 入住 Comfort Hotel 那霸縣廳前", type: "住宿", lat: 26.213559, lng: 127.677578, note: "9/3–9/5 連住兩晚；抵達前確認停車位置，飯店步行約 3 分鐘可到縣廳前站。", query: "Comfort Hotel Naha Prefectural Office", photo: "naha" },
-      { day: 3, time: "19:00", name: "🐖 Ocean BOO! 阿古豬火鍋", type: "★ 晚餐", lat: 26.2167, lng: 127.6896, note: "預約六人個室並確認兒童椅；餐廳無自有停車場。照片為豬肉涮涮鍋代表圖片，非店內實景。", query: "Ocean BOO 那覇店", photo: "shabu" },
-      { day: 4, time: "09:30", name: "🙏 西来院 達磨寺", type: "★ 必去", lat: 26.2161, lng: 127.7188, note: "免費、停車方便，停留 30–45 分鐘即可。", query: "西来院 達磨寺 那覇", photo: "daruma" },
-      { day: 4, time: "12:00", name: "🛟 颱風／延誤機動時段", type: "機動", lat: 26.2171, lng: 127.6910, note: "優先補玉泉洞或其他取消項目；無事則國際通、牧志市場或休息。", query: "国際通り 那覇", photo: "makishi" },
-      { day: 4, time: "18:30", name: "🥩 敘敘苑 おもろまち店", type: "★ 晚餐", lat: 26.2278, lng: 127.6977, note: "預約六人座敷個室；個室費約加 5%。", query: "叙々苑 沖縄おもろまち店", photo: "yakiniku" },
-      { day: 5, time: "07:15", name: "🧳 Comfort Hotel 退房", type: "住宿", lat: 26.213559, lng: 127.677578, note: "行李全部裝車、確認無遺漏後前往機場。", query: "Comfort Hotel Naha Prefectural Office", photo: "naha" },
-      { day: 5, time: "07:45", name: "✈️ 送妻姊至那霸機場", type: "送機", lat: 26.2065, lng: 127.6463, note: "妻子的姊姊搭 10:10 班機；其餘五人預計 20:20 起飛。", query: "那覇空港", photo: "airport" },
-      { day: 5, time: "11:00", name: "🌊 瀨長島 Umikaji Terrace", type: "午餐", lat: 26.1746, lng: 127.6452, note: "看飛機、簡單午餐；風雨大時改 DMM 室內水族館。", query: "瀬長島ウミカジテラス", photo: "umikaji" },
-      { day: 5, time: "14:00", name: "🛍️ Ashibinaa Outlet", type: "採買", lat: 26.1572, lng: 127.6562, note: "最後補貨，離還車點近；不要為購物壓縮還車緩衝。", query: "沖縄アウトレットモールあしびなー", photo: "ashibinaa" },
-      { day: 5, time: "16:30", name: "🚐 還車、搭接駁回機場", type: "重要", lat: 26.1589, lng: 127.6650, note: "Cordio 最後接駁 17:00；行前再向店家確認座位與還車流程。", query: "コルディオレンタカー 那覇空港店", photo: "tomiton" }
+      { day: 1, time: "09:15", name: "✈️ BR112／IT230 抵達那霸", type: "暫定班機", lat: 26.2065, lng: 127.6463, note: "BR112 預計 09:15、妻姊的 IT230 預計 09:20；兩班都要再向航空公司確認。集合後一起入境取行李。", duration: "入境、行李 60–90 分", query: "那覇空港 国際線", photo: "airport" },
+      { day: 1, time: "11:15", name: "🚐 Cordio 取 Alphard", type: "租車", lat: 26.1589, lng: 127.6650, note: "TOMITON 1F。機場沒有迎賓接駁；搭最多兩台計程車並保留收據，再確認 NOC、兒童座椅與還車流程。", transit: "計程車 20–30 分", duration: "手續 45–60 分", query: "コルディオレンタカー 那覇空港店", photo: "tomiton" },
+      { day: 1, time: "12:15", name: "🍙 TOMITON 簡單午餐", type: "補給", lat: 26.1589, lng: 127.6650, note: "不排正式餐廳，以能準時離開為原則；先處理孩子與長輩的午餐、飲水和洗手間。", transit: "館內步行", duration: "40–45 分", query: "豊崎ライフスタイルセンターTOMITON", photo: "tomiton" },
+      { day: 1, time: "13:35", name: "🕳️ 玉泉洞 Okinawa World", type: "★ 必去", lat: 26.1400, lng: 127.7494, note: "預留完整洞窟與王國村時間；穿防滑鞋。若 13:45 仍未抵達，就直接取消並北上。", transit: "車程 35–45 分", duration: "2 小時–2 小時 15 分", query: "おきなわワールド 玉泉洞", photo: "gyokusendo" },
+      { day: 1, time: "17:45", name: "🏨 入住 Hotel Mahaina", type: "住宿", lat: 26.6830635, lng: 127.8822316, note: "走高速北上，中途可停一次洗手間；9/1–9/3 連住兩晚。晚餐留在飯店或附近，不再長途開車。", transit: "車程 1 小時 45 分–2 小時", duration: "入住、休息 60 分", query: "Hotel Mahaina Wellness Resort Okinawa", photo: "bise" },
+      { day: 1, time: "18:45", name: "🍴 飯店／附近晚餐", type: "彈性晚餐", lat: 26.6830635, lng: 127.8822316, note: "第一天不綁餐廳；全員累就直接在飯店用餐，吃完提早休息。", transit: "步行或短程車程", duration: "60–90 分", query: "Hotel Mahaina Wellness Resort Okinawa レストラン", photo: "bise" },
+
+      { day: 2, time: "08:40", name: "🛶 備瀨透明獨木舟報到", type: "待確認", lat: 26.7046, lng: 127.8811, note: "預約 09:00 私人團；出發前須由業者書面確認兩位長輩年齡與 4 歲幼童都可參加，不加浮潛。", transit: "車程 15–20 分", duration: "報到＋活動約 1 小時 50 分", query: "備瀬カヤックfuku", photo: "biseCoast" },
+      { day: 2, time: "11:30", name: "🌉 古宇利大橋看海", type: "順路", lat: 26.6847, lng: 128.0180, note: "只做短停與過橋景觀；海洋塔最多是精神良好時的臨時加項，不列為必走。", transit: "換裝 15 分＋車程 35–40 分", duration: "20 分", query: "古宇利大橋", photo: "kouri" },
+      { day: 2, time: "12:00", name: "🦐 古宇利シュリンプ", type: "★ 午餐", lat: 26.6985, lng: 128.0216, note: "11:00 開門、不收座位預約；已為排隊、找座位和孩子用餐多留時間。長輩可先在車內吹冷氣。", transit: "車程 5–10 分", duration: "60–70 分", query: "KOURI SHRIMP 古宇利島", photo: "shrimp" },
+      { day: 2, time: "13:35", name: "☕ THE SINMAY", type: "可刪咖啡", lat: 26.6880, lng: 127.9891, note: "今歸仁外帶咖啡站，營業約 11:00–16:30；若午餐排隊或全員累，直接跳過以保住午睡。", transit: "車程 20–25 分", duration: "15–20 分", query: "THE SINMAY 今帰仁村玉城292-2", photo: "kouri" },
+      { day: 2, time: "14:25", name: "💤 回 Hotel Mahaina 午睡", type: "必要休息", lat: 26.6830635, lng: 127.8822316, note: "洗澡、午睡、補水；至少保留兩小時，不為海洋塔或購物縮短。", transit: "車程 25–30 分", duration: "2 小時", query: "Hotel Mahaina Wellness Resort Okinawa", photo: "bise" },
+      { day: 2, time: "17:30", name: "🐷 百年古家 大家（うふやー）", type: "★ 晚餐", lat: 26.568123, lng: 127.980962, note: "保留團體版的阿古豬餐廳。預約 17:30 涮涮鍋套餐；用餐限 90 分，遲到 15 分可能取消，最早一個月前開放預約。", transit: "16:35 出發；車程 35–45 分", duration: "90 分", query: "百年古家 大家 うふやー", photo: "shabu" },
+      { day: 2, time: "19:45", name: "🏨 返回 Hotel Mahaina", type: "休息", lat: 26.6830635, lng: 127.8822316, note: "回飯店後不再排活動，讓孩子和長輩正常休息。", transit: "車程 35–45 分", duration: "整晚", query: "Hotel Mahaina Wellness Resort Okinawa", photo: "bise" },
+
+      { day: 3, time: "08:30", name: "🧳 Hotel Mahaina 退房", type: "住宿", lat: 26.6830635, lng: 127.8822316, note: "早餐後把行李直接放上車，避免 11:00 前再折返飯店。", duration: "15–20 分", query: "Hotel Mahaina Wellness Resort Okinawa", photo: "bise" },
+      { day: 3, time: "09:00", name: "🐋 美麗海水族館", type: "★ 必去", lat: 26.6943, lng: 127.8779, note: "停 P7，早場較少人；4 歲免費，可借推車與輪椅。這段完整留給主水槽與慢速參觀。", transit: "車程 10 分", duration: "2 小時 30 分", query: "沖縄美ら海水族館 P7", photo: "churaumi" },
+      { day: 3, time: "11:40", name: "🍴 海洋博公園午餐／休息", type: "補給", lat: 26.6943, lng: 127.8779, note: "在園區內簡單用餐、上洗手間；12:45 準時開始南下。", transit: "園區內步行", duration: "60 分", query: "海洋博公園 レストラン", photo: "churaumi" },
+      { day: 3, time: "14:30", name: "🛍️ 抵達 AEON MALL Rycom", type: "室內休息站", lat: 26.3148, lng: 127.7950, note: "停車後先補水、洗手間並讓長輩坐下；便便博物館就在 5 樓，不是另一個車程。", transit: "車程 1 小時 30 分–1 小時 45 分", duration: "30 分", query: "イオンモール沖縄ライカム", photo: "aeon" },
+      { day: 3, time: "15:00", name: "💩 便便博物館 OKINAWA", type: "親子活動", lat: 26.3148, lng: 127.7950, note: "建議預約時段；4 歲需購兒童票。長輩若不參加，可留在同棟商場休息。", transit: "AEON 5F 館內移動", duration: "75–90 分", query: "うんこミュージアム OKINAWA", photo: "aeon" },
+      { day: 3, time: "16:30", name: "🍪 AEON 點心、購物與休息", type: "必要補給", lat: 26.3148, lng: 127.7950, note: "先讓孩子與長輩吃點心，再自由採買和吹冷氣；17:30 集合離開，不再增加景點。", transit: "同一棟商場", duration: "60 分", query: "イオンモール沖縄ライカム", photo: "aeon" },
+      { day: 3, time: "18:20", name: "🏨 入住 Comfort Hotel 那霸縣廳前", type: "住宿", lat: 26.213559, lng: 127.677578, note: "9/3–9/5 連住兩晚；尖峰時段已多留交通緩衝，抵達前再次確認停車位置。", transit: "車程 40–50 分", duration: "入住、休息 60 分", query: "Comfort Hotel Naha Prefectural Office", photo: "naha" },
+      { day: 3, time: "19:30", name: "🍜 國際通附近簡單晚餐", type: "彈性晚餐", lat: 26.2167, lng: 127.6848, note: "保留胃口給大家與敘敘苑；今晚不再安排另一餐阿古豬火鍋，步行就近解決。", transit: "步行 5–10 分", duration: "60–90 分", query: "国際通り レストラン", photo: "naha" },
+
+      { day: 4, time: "09:30", name: "🛍️ 國際通散步／購物", type: "彈性", lat: 26.2171, lng: 127.6910, note: "從飯店步行前往，不開 Alphard 找停車位；若要補前幾天行程，這站第一個刪除。", transit: "步行約 5 分", duration: "90 分", query: "国際通り 那覇", photo: "naha" },
+      { day: 4, time: "12:00", name: "🥩 敘敘苑 おもろまち店", type: "★ 午餐", lat: 26.2278, lng: 127.6977, note: "保留團體版的午餐安排。預約六人座敷個室；店家無合作停車場，預留找附近停車位的時間。", transit: "車程＋停車 20–30 分", duration: "90 分", query: "叙々苑 沖縄おもろまち店", photo: "yakiniku" },
+      { day: 4, time: "14:00", name: "🙏 西来院 達磨寺", type: "短停", lat: 26.2161, lng: 127.7188, note: "免費、停車位有限；以參拜和短暫散步為主，不延伸成首里半日遊。", transit: "車程 20–25 分", duration: "30–40 分", query: "西来院 達磨寺 那覇", photo: "daruma" },
+      { day: 4, time: "15:10", name: "🛟 回 Comfort 休息／機動", type: "核心備援", lat: 26.213559, lng: 127.677578, note: "至少保留兩個半小時午睡。若前三天有必去項目取消，直接用整個 Day 4 補行程，不必硬保留國際通或達磨寺。", transit: "車程 15–25 分", duration: "2 小時 30 分以上", query: "Comfort Hotel Naha Prefectural Office", photo: "naha" },
+      { day: 4, time: "18:30", name: "🍴 飯店／國際通晚餐", type: "彈性晚餐", lat: 26.2167, lng: 127.6848, note: "不再綁第二間餐廳；依體力步行用餐或外帶回飯店。", transit: "步行 5–10 分", duration: "60–90 分", query: "国際通り レストラン", photo: "makishi" },
+
+      { day: 5, time: "06:40", name: "✈️ 妻姊搭計程車前往 IT231", type: "暫定班機", lat: 26.213559, lng: 127.677578, note: "IT231 預計 10:10 起飛；妻姊從飯店帶行李自行搭計程車，目標 07:10 前抵達國際線。班機需向航空公司再次確認。", transit: "計程車 20–25 分", duration: "報到、安檢約 3 小時", query: "那覇空港 国際線", photo: "airport" },
+      { day: 5, time: "07:00", name: "🍳 其他五人飯店早餐", type: "休息", lat: 26.213559, lng: 127.677578, note: "不跟著機場來回；慢慢早餐、最後整理行李。", duration: "60 分", query: "Comfort Hotel Naha Prefectural Office", photo: "naha" },
+      { day: 5, time: "09:00", name: "🧳 Comfort Hotel 退房", type: "住宿", lat: 26.213559, lng: 127.677578, note: "飯店 10:00 前退房；09:00 離開可避開最後一刻趕行李。", duration: "15–20 分", query: "Comfort Hotel Naha Prefectural Office", photo: "naha" },
+      { day: 5, time: "10:00", name: "🌊 瀨長島 Umikaji Terrace", type: "午餐／散步", lat: 26.1746, lng: 127.6452, note: "商店約 10:00 起營業、餐廳多為 11:00 起；先散步看飛機，再提早吃午餐。", transit: "車程 20–30 分", duration: "1 小時 45 分", query: "瀬長島ウミカジテラス", photo: "umikaji" },
+      { day: 5, time: "12:00", name: "🛍️ Ashibinaa Outlet", type: "採買／休息", lat: 26.1572, lng: 127.6562, note: "最後採買與冷氣休息；14:15 無論是否逛完都離開，先加滿油再還車。", transit: "車程 10 分", duration: "2 小時 15 分", query: "沖縄アウトレットモールあしびなー", photo: "ashibinaa" },
+      { day: 5, time: "15:00", name: "🚐 Cordio 還車", type: "硬性截止", lat: 26.1589, lng: 127.6650, note: "14:40 前先加滿油；預留檢查與搬行李時間，目標搭 16:00 接駁，不等 17:00 最後一班。", transit: "含加油車程 20–30 分", duration: "還車 45–60 分", query: "コルディオレンタカー 那覇空港店", photo: "tomiton" },
+      { day: 5, time: "16:20", name: "✈️ 抵達機場等候 BR185", type: "暫定班機", lat: 26.2065, lng: 127.6463, note: "BR185 預計 20:20 起飛；提早到機場辦理報到、晚餐與免稅採買。班機需向航空公司再次確認。", transit: "接駁 15–20 分", duration: "報到、候機約 4 小時", query: "那覇空港 国際線", photo: "airport" }
     ];
 
     const tripMain = document.getElementById("tripMain");
@@ -1042,8 +1088,8 @@
     });
     map.getContainer().removeAttribute("tabindex");
     L.control.zoom({ position: "topright" }).addTo(map);
-    const baseLayer = L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-      attribution: "© OpenStreetMap © CARTO",
+    const baseLayer = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap contributors",
       maxZoom: 19
     });
     let tileErrorCount = 0;
@@ -1078,6 +1124,7 @@
       }).addTo(map);
       const markers = dayStops.map((stop, index) => {
         const photo = photos[stop.photo];
+        const offset = markerOffset(stop);
         const marker = L.marker([stop.lat, stop.lng], {
          keyboard: false,
          title: stop.name,
@@ -1086,7 +1133,7 @@
            className: "",
            html: `<div class="route-pin" style="--pin-color:${day.color}">${index + 1}</div>`,
            iconSize: [44, 44],
-           iconAnchor: [22, 22],
+           iconAnchor: [22 - offset.x, 22 - offset.y],
            popupAnchor: [0, -20]
          })
         }).addTo(map);
@@ -1096,6 +1143,7 @@
             <span class="popup-time">${day.date}（${day.weekday}） · ${stop.time} · ${stop.type}</span>
             <h3>${stop.name}</h3>
             <p>${stop.note}</p>
+            ${logisticsMarkup(stop, "popup-logistics")}
             <div class="popup-links">
               <a href="${mapsUrl(stop)}" target="_blank" rel="noopener">Google 地圖 →</a>
               <a class="credit" href="${photo.page}" target="_blank" rel="noopener">${photo.credit}</a>
@@ -1113,6 +1161,33 @@
 
     function mapsUrl(stop) {
       return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(stop.query)}`;
+    }
+
+    function markerOffset(stop) {
+      const duplicates = stops.filter(candidate => candidate.lat === stop.lat && candidate.lng === stop.lng);
+      if (duplicates.length === 1) return { x: 0, y: 0 };
+
+      const position = duplicates.indexOf(stop);
+      const radiusByCount = {
+        2: 24,
+        3: 28,
+        4: 34,
+        5: 40
+      };
+      const radius = radiusByCount[duplicates.length] || 44;
+      const angle = (-Math.PI / 2) + ((Math.PI * 2 * position) / duplicates.length);
+      return {
+        x: Math.round(Math.cos(angle) * radius),
+        y: Math.round(Math.sin(angle) * radius)
+      };
+    }
+
+    function logisticsMarkup(stop, className) {
+      const items = [
+        stop.transit ? `<span><strong>移動</strong> ${stop.transit}</span>` : "",
+        stop.duration ? `<span><strong>停留</strong> ${stop.duration}</span>` : ""
+      ].filter(Boolean);
+      return items.length ? `<p class="${className}">${items.join("")}</p>` : "";
     }
 
     function renderDayBoard() {
@@ -1195,6 +1270,7 @@
           <div class="stop-copy">
             <h2 class="stop-title">${stop.name}<span class="stop-type">${stop.type}</span></h2>
             <p class="stop-note">${stop.note}</p>
+            ${logisticsMarkup(stop, "stop-logistics")}
             <a class="stop-nav" href="${mapsUrl(stop)}" target="_blank" rel="noopener">導航到這裡 <span aria-hidden="true">↗</span></a>
           </div>
           <img class="stop-photo" src="${photo.src}" alt="${photo.alt}" title="在地圖查看此站" role="button" tabindex="0" loading="lazy" decoding="async">
