@@ -881,8 +881,8 @@
         <p>北部住兩晚，再往南回到那霸。每天最多兩個主要活動，讓長輩、孩子和天氣都有喘息空間。</p>
         <div class="hero-stats" aria-label="旅程摘要">
           <span>5 天 4 夜</span>
-          <span>本部／備瀨 2 晚</span>
-          <span>那霸 2 晚</span>
+          <span>Mahaina 2 晚</span>
+          <span>Comfort 那霸 2 晚</span>
           <span>Alphard 自駕</span>
         </div>
       </div>
@@ -912,7 +912,7 @@
       <p class="map-status" id="mapStatus" role="status"></p>
       <div class="map-heading">
         <strong id="mapTitle">五日全島路線</strong>
-        <span id="mapSubtitle">那霸 → 本部／古宇利 → 那霸</span>
+        <span id="mapSubtitle">那霸 → Hotel Mahaina → Comfort 那霸</span>
       </div>
       <div class="map-controls">
         <button class="map-control" id="fitDay" type="button">聚焦單日</button>
@@ -948,7 +948,7 @@
     const days = {
       1: {
         date: "9/1", weekday: "二", color: "#f26f5b",
-        title: "抵達、玉泉洞、北上", short: "玉泉洞 → 本部",
+        title: "抵達、玉泉洞、北上", short: "玉泉洞 → Mahaina",
         summary: "第一天只排一個正式景點；若落地或取車延誤，直接放棄玉泉洞。",
         tag: "可直接縮短",
         fallback: "<strong>颱風／延誤方案</strong><p>玉泉洞改排 9/4 機動時段；若已發布暴風警報，不開車北上，依官方指示留在安全室內。</p>"
@@ -962,7 +962,7 @@
       },
       3: {
         date: "9/3", weekday: "四", color: "#14a99a",
-        title: "美麗海、AEON、那霸", short: "美麗海 → 那霸",
+        title: "美麗海、AEON、那霸", short: "美麗海 → Comfort",
         summary: "上午看水族館，午後用 AEON 當南下途中的午餐、冷氣與購物休息站。",
         tag: "室內緩衝",
         fallback: "<strong>下雨方案</strong><p>美麗海與 AEON 都適合雨天；若風雨已影響道路安全，延後退房並取消跨區移動。</p>"
@@ -1006,18 +1006,19 @@
       { day: 1, time: "09:15", name: "✈️ 抵達那霸機場", type: "交通", lat: 26.2065, lng: 127.6463, note: "計程車前往 Cordio；保留收據，最多兩台可依方案退費。", query: "那覇空港", photo: "airport" },
       { day: 1, time: "11:00", name: "🚐 Cordio 取 Alphard", type: "租車", lat: 26.1589, lng: 127.6650, note: "TOMITON 1F。確認 NOC、兒童座椅與實際還車時間。", query: "コルディオレンタカー 那覇空港店", photo: "tomiton" },
       { day: 1, time: "12:00", name: "🕳️ 玉泉洞 Okinawa World", type: "★ 必去", lat: 26.1400, lng: 127.7494, note: "取車順利才去；最後入場約 16:00。延誤就移到 9/4。", query: "おきなわワールド 玉泉洞", photo: "gyokusendo" },
-      { day: 1, time: "15:30", name: "🛣️ 北上至本部／備瀨", type: "移動", lat: 26.7008, lng: 127.8792, note: "走高速約 2 小時 15 分；入住同一飯店兩晚，減少搬行李。", query: "備瀬のフクギ並木", photo: "bise" },
+      { day: 1, time: "15:30", name: "🏨 入住 Hotel Mahaina", type: "住宿", lat: 26.6830635, lng: 127.8822316, note: "走高速北上約 2 小時 15 分；9/1–9/3 連住兩晚，減少搬行李。", query: "Hotel Mahaina Wellness Resort Okinawa", photo: "bise" },
       { day: 2, time: "09:00", name: "🛶 備瀨透明獨木舟", type: "★ 必去", lat: 26.7046, lng: 127.8811, note: "首選 Kayak Fuku。需確認 65+ 長輩、六人三艇與 4 歲兒童安排。", query: "備瀬カヤックfuku", photo: "biseCoast" },
       { day: 2, time: "11:00", name: "🌉 古宇利大橋", type: "順路", lat: 26.6847, lng: 128.0180, note: "跨海景觀路線；長輩若累可留在車上看海。", query: "古宇利大橋", photo: "kouri" },
       { day: 2, time: "11:30", name: "🦐 古宇利シュリンプ", type: "★ 蝦蝦飯", lat: 26.6985, lng: 128.0216, note: "古宇利店 11:00 開門，可能提早售完；有兒童椅與停車場。照片為蒜香蝦飯代表圖片，非店內實景。", query: "KOURI SHRIMP 古宇利島", photo: "shrimp" },
-      { day: 2, time: "14:00", name: "💤 回飯店休息", type: "留白", lat: 26.7008, lng: 127.8792, note: "下午不再排景點；午睡、玩水，替隔天水族館保留體力。", query: "備瀬のフクギ並木", photo: "bise" },
+      { day: 2, time: "14:00", name: "💤 回 Hotel Mahaina 休息", type: "留白", lat: 26.6830635, lng: 127.8822316, note: "下午不再排景點；午睡、玩水，替隔天水族館保留體力。", query: "Hotel Mahaina Wellness Resort Okinawa", photo: "bise" },
       { day: 3, time: "09:00", name: "🐋 美麗海水族館", type: "★ 必去", lat: 26.6943, lng: 127.8779, note: "早場人較少；停 P7 最近。4 歲免費，可借推車與輪椅。", query: "沖縄美ら海水族館 P7", photo: "churaumi" },
       { day: 3, time: "14:00", name: "🛍️ AEON MALL Okinawa Rycom", type: "★ 休息站", lat: 26.3148, lng: 127.7950, note: "午餐、冷氣休息、採買一次完成，不另算重體力景點。", query: "イオンモール沖縄ライカム", photo: "aeon" },
-      { day: 3, time: "17:15", name: "🏨 入住那霸", type: "住宿", lat: 26.2190, lng: 127.6868, note: "連住兩晚；選有停車位、方便早上送機的區域。", query: "那覇市 おもろまち", photo: "naha" },
+      { day: 3, time: "17:15", name: "🏨 入住 Comfort Hotel 那霸縣廳前", type: "住宿", lat: 26.213559, lng: 127.677578, note: "9/3–9/5 連住兩晚；抵達前確認停車位置，飯店步行約 3 分鐘可到縣廳前站。", query: "Comfort Hotel Naha Prefectural Office", photo: "naha" },
       { day: 3, time: "19:00", name: "🐖 Ocean BOO! 阿古豬火鍋", type: "★ 晚餐", lat: 26.2167, lng: 127.6896, note: "預約六人個室並確認兒童椅；餐廳無自有停車場。照片為豬肉涮涮鍋代表圖片，非店內實景。", query: "Ocean BOO 那覇店", photo: "shabu" },
       { day: 4, time: "09:30", name: "🙏 西来院 達磨寺", type: "★ 必去", lat: 26.2161, lng: 127.7188, note: "免費、停車方便，停留 30–45 分鐘即可。", query: "西来院 達磨寺 那覇", photo: "daruma" },
       { day: 4, time: "12:00", name: "🛟 颱風／延誤機動時段", type: "機動", lat: 26.2171, lng: 127.6910, note: "優先補玉泉洞或其他取消項目；無事則國際通、牧志市場或休息。", query: "国際通り 那覇", photo: "makishi" },
       { day: 4, time: "18:30", name: "🥩 敘敘苑 おもろまち店", type: "★ 晚餐", lat: 26.2278, lng: 127.6977, note: "預約六人座敷個室；個室費約加 5%。", query: "叙々苑 沖縄おもろまち店", photo: "yakiniku" },
+      { day: 5, time: "07:15", name: "🧳 Comfort Hotel 退房", type: "住宿", lat: 26.213559, lng: 127.677578, note: "行李全部裝車、確認無遺漏後前往機場。", query: "Comfort Hotel Naha Prefectural Office", photo: "naha" },
       { day: 5, time: "07:45", name: "✈️ 送妻姊至那霸機場", type: "送機", lat: 26.2065, lng: 127.6463, note: "妻子的姊姊搭 10:10 班機；其餘五人預計 20:20 起飛。", query: "那覇空港", photo: "airport" },
       { day: 5, time: "11:00", name: "🌊 瀨長島 Umikaji Terrace", type: "午餐", lat: 26.1746, lng: 127.6452, note: "看飛機、簡單午餐；風雨大時改 DMM 室內水族館。", query: "瀬長島ウミカジテラス", photo: "umikaji" },
       { day: 5, time: "14:00", name: "🛍️ Ashibinaa Outlet", type: "採買", lat: 26.1572, lng: 127.6562, note: "最後補貨，離還車點近；不要為購物壓縮還車緩衝。", query: "沖縄アウトレットモールあしびなー", photo: "ashibinaa" },
@@ -1229,7 +1230,7 @@
 
     function setOverviewMapHeading() {
       document.getElementById("mapTitle").textContent = "五日全島路線";
-      document.getElementById("mapSubtitle").textContent = "那霸 → 本部／古宇利 → 那霸";
+      document.getElementById("mapSubtitle").textContent = "那霸 → Hotel Mahaina → Comfort 那霸";
     }
 
     function writeHistory(hash, mode) {
