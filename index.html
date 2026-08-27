@@ -1331,6 +1331,17 @@
       map.fitBounds(allBounds, { padding: [44, 44], maxZoom: 10, ...motionOptions() });
     }
 
+    function afterLayout(callback) {
+      let completed = false;
+      const run = () => {
+        if (completed) return;
+        completed = true;
+        callback();
+      };
+      requestAnimationFrame(run);
+      setTimeout(run, 100);
+    }
+
     function openDay(dayNumber, shouldScroll = true, historyMode = "push") {
       if (!days[dayNumber]) return;
       activeDay = dayNumber;
@@ -1341,7 +1352,7 @@
       renderSchedule(dayNumber);
       syncRoutes();
       setDayMapHeading(dayNumber);
-      requestAnimationFrame(() => {
+      afterLayout(() => {
         map.invalidateSize();
         fitDay(dayNumber);
         if (shouldScroll && window.innerWidth <= 900) {
@@ -1358,7 +1369,7 @@
       syncRoutes();
       setOverviewMapHeading();
       document.getElementById("dayStatus").textContent = "已返回五日行程總覽。";
-      requestAnimationFrame(() => {
+      afterLayout(() => {
         map.invalidateSize();
         map.fitBounds(allBounds, { padding: [44, 44], maxZoom: 10, ...motionOptions() });
         window.scrollTo({ top: 0, behavior: scrollBehavior() });
@@ -1383,11 +1394,8 @@
     document.getElementById("fitDay").addEventListener("click", () => activeDay ? focusActiveDayRoute() : openDay(1, false));
     document.getElementById("fitAll").addEventListener("click", showAllRoutes);
     window.addEventListener("popstate", syncViewFromLocation);
-
-    window.addEventListener("load", () => setTimeout(() => {
-      map.invalidateSize();
-      syncViewFromLocation();
-    }, 90));
+    syncViewFromLocation();
+    window.addEventListener("load", () => map.invalidateSize(), { once: true });
   </script>
 </body>
 </html>
